@@ -241,4 +241,4 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-gsap.from(".hero-copy__title", {y:16, opacity:0, duration:0.9, ease:"power2.out"});
+
