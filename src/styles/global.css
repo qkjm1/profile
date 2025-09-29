@@ -408,15 +408,15 @@ canvas {
   }
 }
 
+/* snap 영역이 항상 1뷰포트를 정확히 채우도록 */
 #snapper .snap-section {
-  min-height: 100vh;
-  display: block;
+  min-height: 100svh;   /* 모바일 주소창 변동에도 안전 */
+  height: 100svh;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;  /* 섹션 내용 중앙 정렬(원치 않으면 제거) */
 }
-
-#snapper .snap-section {
-  min-height: 100svh;
-}
-
 
 /* 왼쪽 칼럼에서 슬라이더를 고정 */
 .arch__left {
@@ -464,3 +464,9 @@ canvas {
 }
 
 /* ...필요한 카드 스타일을 기존과 동일하게 import/정의 */
+
+.stack-section {
+  background: #f9f9f9;
+  /* stack-marquee의 배경색과 동일하게 맞추세요 */
+  padding-block: 60px;
+}

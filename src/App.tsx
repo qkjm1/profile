@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import ArchSection from "./sections/ArchSection";
 import ProfilesSection from "./sections/ProfilesSection";
+import StackSection from "./sections/StackSection";
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.normalizeScroll(true);
@@ -339,41 +340,6 @@ export default function App() {
     };
   }, []);
 
-  // ✅ 섹션 진입 시 미세 페이드/슬라이드로 부드럽게 고정되는 느낌 강화
-  useLayoutEffect(() => {
-    const sections = gsap.utils.toArray<HTMLElement>("#snapper .snap-section");
-    const ctx = gsap.context(() => {
-      sections.forEach((el, idx) => {
-        // 첫 섹션은 바로 보이게, 나머지만 살짝 내려오도록
-        gsap.set(el, {
-          opacity: idx === 0 ? 1 : 0,
-          y: idx === 0 ? 0 : 12,
-          willChange: "transform,opacity",
-        });
-        ScrollTrigger.create({
-          trigger: el,
-          start: "top top+=1", // pin 직전 타이밍에 트리거
-          onEnter: () =>
-            gsap.to(el, {
-              opacity: 1,
-              y: 0,
-              duration: 0.45,
-              ease: "power2.out",
-              clearProps: "willChange",
-            }),
-          onEnterBack: () =>
-            gsap.to(el, {
-              opacity: 1,
-              y: 0,
-              duration: 0.45,
-              ease: "power2.out",
-              clearProps: "willChange",
-            }),
-        });
-      });
-    });
-    return () => ctx.revert();
-  }, []);
   // GSAP: 히어로 카피 첫 진입 애니메이션
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -581,8 +547,10 @@ export default function App() {
         <section className="snap-section" id="p-profiles">
           <ProfilesSection />
         </section>
-        <section className="snap-section" id="p-profiles-2">
-          <ProfilesSection />
+
+       
+        <section className="snap-section" id="p-stack">
+          <StackSection />
         </section>
         {/* 3) 추가 페이지들 */}
         {/* <section className="snap-section" id="p-skills">...</section>
