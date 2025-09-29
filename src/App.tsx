@@ -2,11 +2,8 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-
-
-// App.tsx
+import ArchSection from "./sections/ArchSection";
 import ProfilesSection from "./sections/ProfilesSection";
-
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -266,7 +263,6 @@ function BackgroundSVG() {
   );
 }
 
-
 export default function App() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -293,7 +289,34 @@ export default function App() {
       lenis.destroy();
     };
   }, []);
+  // ✅ 페이지 스냅 (fullpage 대체)
+  useLayoutEffect(() => {
+    // 스냅을 적용할 섹션들
+    const sections = gsap.utils.toArray<HTMLElement>("#snapper .snap-section");
 
+    // snap 컨테이너 기준으로만 동작 (히어로는 일반 스크롤)
+    const st = ScrollTrigger.create({
+      trigger: "#snapper",
+      start: "top top",
+      end: "bottom bottom",
+        pin: true,
+        pinSpacing: true,
+        scrub: 1,
+        anticipatePin: 1,
+      // 섹션 개수에 맞게 0~1 구간을 균등 분할하여 스냅
+      snap: {
+        snapTo: (value) => {
+          const n = sections.length - 10;
+          return Math.round(value * n) / n;
+        },
+        duration: 0.6,
+        delay: 0.04,
+        ease: "power1.inOut",
+      },
+    });
+
+    return () => st.kill();
+  }, []);
   // GSAP: 히어로 카피 첫 진입 애니메이션
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -483,12 +506,30 @@ export default function App() {
 
   return (
     <main>
+      {/* 0. 인트로(자유 스크롤) */}
       <div id="section" className="section" ref={sectionRef}>
         <HeroHeader />
         <HeroCopy />
         <BackgroundSVG />
       </div>
-      <ProfilesSection />
+
+      {/* 1~N. 스냅 페이지 컨테이너 */}
+      <div id="snapper">
+        {/* 1) Arch 섹션 (핀/애니메이션 있음 → 스냅 제외하고 싶으면 no-snap 클래스를 더 주세요) */}
+        <section className="snap-section" id="p-arch">
+          {/* 필요하다면 상하 spacer를 재배치 */}
+          <ArchSection />
+        </section>
+
+        {/* 2) Profiles */}
+        <section className="snap-section" id="p-profiles">
+          <ProfilesSection />
+        </section>
+
+        {/* 3) 추가 페이지들 */}
+        {/* <section className="snap-section" id="p-skills">...</section>
+            <section className="snap-section" id="p-contact">...</section> */}
+      </div>
     </main>
   );
 }

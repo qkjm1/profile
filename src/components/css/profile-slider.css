@@ -12,7 +12,7 @@
 
 /* ===== Slider wrapper ===== */
 .ps {
-    position: relative;
+    position: sticky;
     width: 100vw;
     overflow: hidden;
     background: #fff;
@@ -33,15 +33,9 @@
 }
 
 /* 트랙(가로 슬라이드 영역) */
-.ps__track {
-    display: flex;
-    gap: clamp(16px, 2.8vw, 24px);
+.ps:not(.ps--fullscreen) .ps__track {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding: clamp(10px, 2vh, 20px) clamp(24px, 6vw, 60px);
-    -webkit-overflow-scrolling: touch;
-    align-items: center;
-    /* 카드 수직 가운데 */
 }
 
 .ps__track::-webkit-scrollbar {
@@ -239,31 +233,47 @@
     place-items: center;
 }
 
+/* 뷰포트: 세로 스크롤만 브라우저가 처리, 가로는 숨김 */
 .ps__viewport {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    /* ⬅️ 가로 네이티브 스크롤 금지 */
-    touch-action: none;
-    /* ⬅️ 모든 터치 제스처를 우리가 제어 */
+    /* 가로 네이티브 스크롤 제거 */
+    touch-action: pan-y;
+    /* 세로 제스처만 브라우저에 위임 */
     overscroll-behavior: contain;
-    /* iOS 반동/상위 스크롤 전파 방지 */
 }
 
+/* 트랙 */
 .ps__track {
     display: flex;
     height: 100%;
     will-change: transform;
+    gap: var(--gap, 24px);
+    /* 가로 스크롤 막기: overflow-x: visible/hidden 중 택1 (여기선 부모가 숨김) */
 }
 
+/* 한 화면에 N장 보이기 (perView) */
 .ps__slide {
-    flex: 0 0 100vw;
+    flex: 0 0 calc((100vw - (var(--gap, 24px) * (var(--per-view, 1) - 1))) / var(--per-view, 1));
     height: 100%;
     display: grid;
     place-items: center;
-    padding: 4vh 4vw;
+    padding: 4vh 0;
+    /* 좌우 패딩은 gap로 대체되므로 0 */
 }
+
+/* 카드 내부 수직 스크롤 방지 */
+.pcard {
+    overflow: hidden;
+}
+
+.pcard__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 
 .pcard {
@@ -386,7 +396,7 @@
 /* 인디케이터 */
 .ps__dots {
     position: absolute;
-    bottom: 18px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -395,15 +405,15 @@
 
 .ps__dot {
     width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .45);
+    height: 3px;
+
+    background: rgba(215, 117, 117, 0.45);
     border: none;
     cursor: pointer;
 }
 
 .ps__dot.is-active {
-    background: #fff;
+    background: rgba(160, 9, 9, 0.45);
 }
 
 /* 반응형 */
@@ -418,4 +428,8 @@
         transform: rotate(-2deg);
         width: clamp(120px, 44vw, 200px);
     }
+}
+
+.space {
+    height: 20vh;
 }

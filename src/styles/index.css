@@ -55,7 +55,7 @@ img, svg, video, canvas { max-width: 100%; height: auto; display: block; }
   margin-inline: auto;
 }
 
-.spacer { width: 100%; height: 10vh; }
+.spacer { width: 100%; height: 30vh; }
 
 .arch {
   display: flex;
@@ -144,7 +144,7 @@ img, svg, video, canvas { max-width: 100%; height: auto; display: block; }
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: clamp(6px, 1.4vw, 7px) clamp(12px, 2.4vw, 15px);
+  padding: clamp(6px, 1.4vw, 12px) clamp(12px, 2.4vw, 20px);
   background: color-mix(in oklab, white 60%, transparent);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -191,8 +191,8 @@ img, svg, video, canvas { max-width: 100%; height: auto; display: block; }
 /* 드롭다운 패널: 버튼 아래 정렬 */
 .gh-panel {
   position: absolute;
-  left: 0;
-  top: calc(100% + 10px);
+  right: 0;
+  top: calc(100% + 8px);
   width: min(420px, 92vw);
   padding: 14px;
   border-radius: 16px;
@@ -274,40 +274,3 @@ img, svg, video, canvas { max-width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
-#snapper .snap-section {
-  min-height: 100vh;
-  display: block;
-}
-
-
-/* 왼쪽 칼럼에서 슬라이더를 고정 */
-.arch__left { position: relative; }
-.sticky-slider {
-  position: sticky;
-  top: clamp(56px, 10vh, 120px); /* 헤더 높이에 맞춰 조정 */
-}
-
-/* 뷰포트와 슬라이드 레이어링 */
-.sticky-slider__viewport {
-  position: relative;
-  min-height: 360px; /* 카드 높이에 맞춰 조정 */
-}
-
-.sticky-slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .35s ease, transform .35s ease;
-  pointer-events: none;
-}
-.sticky-slide.is-active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-/* 카드 기본(슬라이더 카드와 동일 룩 사용) */
-.profile-card { /* 기존 ProfileSlider 카드 클래스와 동일하게 맞추세요 */ }
-.profile-card__media img { display:block; width:100%; height:auto; border-radius:12px; }
-/* ...필요한 카드 스타일을 기존과 동일하게 import/정의 */
