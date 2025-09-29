@@ -3,7 +3,7 @@ import ProfileSlider, { ProfileItem } from "../components/ProfileSlider";
 
 const items: ProfileItem[] = [
   {
-    id: "chris",
+    id: "chris-1",
     name: "Chris Coyier",
     role: "CO-FOUNDER",
     desc: "Chris is a front-end developer and designer...",
@@ -12,7 +12,7 @@ const items: ProfileItem[] = [
     theme: "sun" // "rose" | "coral" | "cloud"
   },
   {
-    id: "chris",
+    id: "chris-2",
     name: "Chris Coyier",
     role: "CO-FOUNDER",
     desc: "Chris is a front-end developer and designer...",
@@ -21,7 +21,7 @@ const items: ProfileItem[] = [
     theme: "sun" // "rose" | "coral" | "cloud"
   },
   {
-    id: "chris",
+    id: "chris-3",
     name: "Chris Coyier",
     role: "CO-FOUNDER",
     desc: "Chris is a front-end developer and designer...",
@@ -30,7 +30,7 @@ const items: ProfileItem[] = [
     theme: "sun" // "rose" | "coral" | "cloud"
   },
   {
-    id: "chris",
+    id: "chris-4",
     name: "Chris Coyier",
     role: "CO-FOUNDER",
     desc: "Chris is a front-end developer and designer...",

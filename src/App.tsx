@@ -290,6 +290,11 @@ export default function App() {
       lenis.destroy();
     };
   }, []);
+  useEffect(() => {
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
 
   // ✅ 페이지 스냅 (fullpage 대체) - 섹션별 pin
   useLayoutEffect(() => {
@@ -301,11 +306,12 @@ export default function App() {
       ScrollTrigger.create({
         trigger: el,
         start: "top top",
-        end: "+=100%", // 한 화면씩 고정
+        end: "+=100%", // 정확히 1뷰포트 길이만큼 고정
         pin: true,
-        pinSpacing: i !== sections.length - 1, // 마지막 섹션은 여백 불필요
+        pinSpacing: i !== sections.length - 1, // 마지막 섹션만 spacer 제거
         scrub: 1,
-        anticipatePin: 2,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
       })
     );
 
@@ -339,10 +345,14 @@ export default function App() {
     const ctx = gsap.context(() => {
       sections.forEach((el, idx) => {
         // 첫 섹션은 바로 보이게, 나머지만 살짝 내려오도록
-        gsap.set(el, { opacity: 0, y: 50, willChange: "transform,opacity" });
+        gsap.set(el, {
+          opacity: idx === 0 ? 1 : 0,
+          y: idx === 0 ? 0 : 12,
+          willChange: "transform,opacity",
+        });
         ScrollTrigger.create({
           trigger: el,
-          start: "top top+=5", // pin 직전 타이밍에 트리거
+          start: "top top+=1", // pin 직전 타이밍에 트리거
           onEnter: () =>
             gsap.to(el, {
               opacity: 1,
@@ -562,20 +572,17 @@ export default function App() {
       {/* 1~N. 스냅 페이지 컨테이너 */}
       <div id="snapper">
         {/* 1) Arch 섹션 (핀/애니메이션 있음 → 스냅 제외하고 싶으면 no-snap 클래스를 더 주세요) */}
+
         <section className="snap-section" id="p-arch">
           {/* 필요하다면 상하 spacer를 재배치 */}
-          <div className="spacer" />
           <ArchSection />
         </section>
-
         {/* 2) Profiles */}
         <section className="snap-section" id="p-profiles">
           <ProfilesSection />
-          <div className="spacer" />
         </section>
-        <section className="snap-section" id="p-profiles">
+        <section className="snap-section" id="p-profiles-2">
           <ProfilesSection />
-          <div className="spacer" />
         </section>
         {/* 3) 추가 페이지들 */}
         {/* <section className="snap-section" id="p-skills">...</section>

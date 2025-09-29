@@ -172,7 +172,7 @@ export default function ProfileSlider({
               role="group"
               aria-roledescription="slide"
               aria-label={`${i + 1} / ${items.length}`}
-              key={it.id}
+              key={`${it.id}-${i}`}
             >
               <article className={`pcard theme-${it.theme ?? "sun"}`}>
                 <div className="pcard__head">
