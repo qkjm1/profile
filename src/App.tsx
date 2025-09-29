@@ -6,6 +6,7 @@ import ArchSection from "./sections/ArchSection";
 import ProfilesSection from "./sections/ProfilesSection";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.normalizeScroll(true);
 
 function HeroHeader() {
   const [open, setOpen] = useState(false);
@@ -290,7 +291,7 @@ export default function App() {
     };
   }, []);
 
- // ✅ 페이지 스냅 (fullpage 대체) - 섹션별 pin
+  // ✅ 페이지 스냅 (fullpage 대체) - 섹션별 pin
   useLayoutEffect(() => {
     const sections = gsap.utils.toArray<HTMLElement>("#snapper .snap-section");
     if (sections.length < 2) return;
@@ -300,11 +301,11 @@ export default function App() {
       ScrollTrigger.create({
         trigger: el,
         start: "top top",
-        end: "+=100%",           // 한 화면씩 고정
+        end: "+=100%", // 한 화면씩 고정
         pin: true,
         pinSpacing: i !== sections.length - 1, // 마지막 섹션은 여백 불필요
         scrub: 1,
-        anticipatePin: 1,
+        anticipatePin: 2,
       })
     );
 
@@ -312,7 +313,8 @@ export default function App() {
     const snapST = ScrollTrigger.create({
       trigger: "#snapper",
       start: "top top",
-      end: () => "+=" + (sections.length * window.innerHeight - window.innerHeight),
+      end: () =>
+        "+=" + (sections.length * window.innerHeight - window.innerHeight),
       snap: {
         snapTo: (v) => {
           const n = sections.length - 1;
@@ -329,6 +331,38 @@ export default function App() {
       snapST.kill();
       triggers.forEach((t) => t.kill());
     };
+  }, []);
+
+  // ✅ 섹션 진입 시 미세 페이드/슬라이드로 부드럽게 고정되는 느낌 강화
+  useLayoutEffect(() => {
+    const sections = gsap.utils.toArray<HTMLElement>("#snapper .snap-section");
+    const ctx = gsap.context(() => {
+      sections.forEach((el, idx) => {
+        // 첫 섹션은 바로 보이게, 나머지만 살짝 내려오도록
+        gsap.set(el, { opacity: 0, y: 50, willChange: "transform,opacity" });
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top top+=5", // pin 직전 타이밍에 트리거
+          onEnter: () =>
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.45,
+              ease: "power2.out",
+              clearProps: "willChange",
+            }),
+          onEnterBack: () =>
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.45,
+              ease: "power2.out",
+              clearProps: "willChange",
+            }),
+        });
+      });
+    });
+    return () => ctx.revert();
   }, []);
   // GSAP: 히어로 카피 첫 진입 애니메이션
   useLayoutEffect(() => {
@@ -530,15 +564,18 @@ export default function App() {
         {/* 1) Arch 섹션 (핀/애니메이션 있음 → 스냅 제외하고 싶으면 no-snap 클래스를 더 주세요) */}
         <section className="snap-section" id="p-arch">
           {/* 필요하다면 상하 spacer를 재배치 */}
+          <div className="spacer" />
           <ArchSection />
         </section>
 
         {/* 2) Profiles */}
         <section className="snap-section" id="p-profiles">
           <ProfilesSection />
+          <div className="spacer" />
         </section>
         <section className="snap-section" id="p-profiles">
           <ProfilesSection />
+          <div className="spacer" />
         </section>
         {/* 3) 추가 페이지들 */}
         {/* <section className="snap-section" id="p-skills">...</section>
