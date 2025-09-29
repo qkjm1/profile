@@ -289,33 +289,46 @@ export default function App() {
       lenis.destroy();
     };
   }, []);
-  // ✅ 페이지 스냅 (fullpage 대체)
-  useLayoutEffect(() => {
-    // 스냅을 적용할 섹션들
-    const sections = gsap.utils.toArray<HTMLElement>("#snapper .snap-section");
 
-    // snap 컨테이너 기준으로만 동작 (히어로는 일반 스크롤)
-    const st = ScrollTrigger.create({
-      trigger: "#snapper",
-      start: "top top",
-      end: "bottom bottom",
+ // ✅ 페이지 스냅 (fullpage 대체) - 섹션별 pin
+  useLayoutEffect(() => {
+    const sections = gsap.utils.toArray<HTMLElement>("#snapper .snap-section");
+    if (sections.length < 2) return;
+
+    // 섹션별 pin 트리거 생성
+    const triggers = sections.map((el, i) =>
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top top",
+        end: "+=100%",           // 한 화면씩 고정
         pin: true,
-        pinSpacing: true,
+        pinSpacing: i !== sections.length - 1, // 마지막 섹션은 여백 불필요
         scrub: 1,
         anticipatePin: 1,
-      // 섹션 개수에 맞게 0~1 구간을 균등 분할하여 스냅
+      })
+    );
+
+    // 진행도 기준 스냅(가까운 섹션 경계로)
+    const snapST = ScrollTrigger.create({
+      trigger: "#snapper",
+      start: "top top",
+      end: () => "+=" + (sections.length * window.innerHeight - window.innerHeight),
       snap: {
-        snapTo: (value) => {
-          const n = sections.length - 10;
-          return Math.round(value * n) / n;
+        snapTo: (v) => {
+          const n = sections.length - 1;
+          return Math.round(v * n) / n;
         },
-        duration: 0.6,
-        delay: 0.04,
+        duration: 0.5,
+        delay: 0.03,
         ease: "power1.inOut",
       },
+      invalidateOnRefresh: true,
     });
 
-    return () => st.kill();
+    return () => {
+      snapST.kill();
+      triggers.forEach((t) => t.kill());
+    };
   }, []);
   // GSAP: 히어로 카피 첫 진입 애니메이션
   useLayoutEffect(() => {
@@ -424,7 +437,6 @@ export default function App() {
               trigger: ".arch",
               start: "top top",
               end: "bottom bottom",
-              pin: ".arch__right",
               scrub: true,
             },
           });
@@ -525,7 +537,9 @@ export default function App() {
         <section className="snap-section" id="p-profiles">
           <ProfilesSection />
         </section>
-
+        <section className="snap-section" id="p-profiles">
+          <ProfilesSection />
+        </section>
         {/* 3) 추가 페이지들 */}
         {/* <section className="snap-section" id="p-skills">...</section>
             <section className="snap-section" id="p-contact">...</section> */}
