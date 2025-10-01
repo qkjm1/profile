@@ -7,7 +7,7 @@
     --panel: #2a2d33;
 
     /* 더 진한 카드 베이스 */
-    --card-yellow: #F0C53B;
+    --card-yellow: #C9CDCF;
 }
 
 /* ===== Slider wrapper ===== */
@@ -134,7 +134,7 @@
     position: absolute;
     right: 12px;
     top: -14px;
-    background: #ffd24d;
+    background: #C9CDCF;
     color: #1a1a1a;
     font-weight: 800;
     font-size: 12px;
@@ -304,7 +304,7 @@
     position: absolute;
     right: clamp(10px, 2vw, 22px);
     top: -26px;
-    background: #f0d146;
+    background: #C9CDCF;
     color: #2f3237;
     font-weight: 700;
     font-size: clamp(10px, 1.2vw, 14px);
@@ -351,7 +351,7 @@
 .pcard__handle {
     justify-self: start;
     text-decoration: none;
-    color: #f6da4f;
+    color: #C9CDCF;
     background: #2e3137;
     border-radius: 12px;
     padding: 10px 14px;

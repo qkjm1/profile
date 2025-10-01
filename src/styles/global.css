@@ -203,6 +203,17 @@ canvas {
   display: flex;
   align-items: center;
   gap: 8px;
+  order: 1;
+  /* 먼저 */
+  margin-left: 0;
+  /* 안전 */
+}
+.hero__nav {
+  order: 2;            /* 나중 */
+  margin-left: auto;   /* 오른쪽 끝으로 밀기 */
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 /* GitHub 토글 */
@@ -247,6 +258,11 @@ canvas {
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
   z-index: 11;
+  right: auto;
+}
+
+@media (max-width: 560px) {
+  .hero__nav { gap: 8px; }
 }
 
 .gh-panel__section+.gh-panel__section {
@@ -289,6 +305,35 @@ canvas {
 }
 
 .gh-link:active {
+  transform: translateY(1px);
+}
+
+/* 내비 버튼 공통 스타일 */
+.navlink {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #111;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 10px;
+  transition: background .2s ease, transform .15s ease;
+}
+
+/* 👉 메뉴를 오른쪽으로 밀기 */
+.hero__nav {
+  margin-left: auto;
+  /* 오른쪽 정렬 핵심 */
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.navlink:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.navlink:active {
   transform: translateY(1px);
 }
 
@@ -391,7 +436,8 @@ canvas {
   }
 
   .hero__inner {
-    gap: 12px;
+    display: flex;
+    align-items: center;
   }
 
   .toggle {
@@ -410,12 +456,14 @@ canvas {
 
 /* snap 영역이 항상 1뷰포트를 정확히 채우도록 */
 #snapper .snap-section {
-  min-height: 100svh;   /* 모바일 주소창 변동에도 안전 */
+  min-height: 100svh;
+  /* 모바일 주소창 변동에도 안전 */
   height: 100svh;
   margin: 0;
   padding: 0;
   display: grid;
-  place-items: center;  /* 섹션 내용 중앙 정렬(원치 않으면 제거) */
+  place-items: center;
+  /* 섹션 내용 중앙 정렬(원치 않으면 제거) */
 }
 
 /* 왼쪽 칼럼에서 슬라이더를 고정 */
@@ -466,7 +514,7 @@ canvas {
 /* ...필요한 카드 스타일을 기존과 동일하게 import/정의 */
 
 .stack-section {
-  background: #f9f9f9;
+  background: #fff;
   /* stack-marquee의 배경색과 동일하게 맞추세요 */
   padding-block: 60px;
 }

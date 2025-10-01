@@ -1,4 +1,10 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -8,11 +14,84 @@ import StackSection from "./sections/StackSection";
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.normalizeScroll(true);
+// ✅ "섹션(top) 기준"으로 스크롤 (핀/Spacer 무시)
+// - 헤더 높이만큼 자동 보정
+// - 스냅 ST가 당겨버리는 현상 방지: 일시 비활성화 후 복구
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
 
+  // 1) 헤더 높이 계산 (고정 헤더가 겹치지 않도록 보정)
+  const header = document.querySelector<HTMLElement>(".hero__inner");
+  const headerH = header ? header.getBoundingClientRect().height : 0;
+
+  // 2) 목표 Y (섹션 엘리먼트의 문서상 top)
+  //    - pin/spacer와 관계없이 "현재 DOM 레이아웃" 기준
+  const rect = el.getBoundingClientRect();
+  let targetY = window.scrollY + rect.top - headerH;
+
+  // 3) #snapper에 붙인 '스냅용 ScrollTrigger'를 잠시 꺼두기 (있으면)
+  const snapST = ScrollTrigger.getAll().find(
+    (t) => (t.vars?.trigger as Element | undefined)?.id === "snapper" && !!t.vars?.snap
+  );
+  snapST?.disable(); // 잠깐 비활성화
+
+  // 4) Lenis 우선 스크롤
+  const lenis = (window as any).__lenis as InstanceType<typeof Lenis> | undefined;
+  const duration = 1.1;
+
+  if (lenis) {
+    lenis.scrollTo(targetY, { duration, lock: true });
+  } else {
+    window.scrollTo({ top: targetY, behavior: "smooth" });
+  }
+
+  // 5) 스냅 ST 복구 (스크롤 끝났을 법한 시점 + 여유 120ms)
+  window.setTimeout(() => {
+    snapST?.enable();
+  }, Math.round(duration * 1000) + 120);
+}
 function HeroHeader() {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
+
+  const handleNav = useCallback(
+    (targetId: string) => () => {
+      scrollToSection(targetId);
+    },
+    []
+  );
+
+  useLayoutEffect(() => {
+    // 버튼 맵: data-target 속성으로 조회
+    const btns = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".navlink[data-target]")
+    );
+    const btnMap = new Map<string, HTMLButtonElement>();
+    btns.forEach((b) => {
+      const key = b.getAttribute("data-target");
+      if (key) btnMap.set(key, b);
+    });
+
+    const ids = ["p-arch", "p-profiles", "p-stack"];
+    const triggers = ids.map((id) =>
+      ScrollTrigger.create({
+        trigger: document.getElementById(id)!,
+        start: "top center",
+        end: "bottom center",
+        onToggle: (self) => {
+          // 전부 false로 초기화
+          btnMap.forEach((btn) => btn.setAttribute("aria-current", "false"));
+          // 활성 구간의 버튼만 true
+          if (self.isActive)
+            btnMap.get(id)?.setAttribute("aria-current", "true");
+        },
+      })
+    );
+
+    return () => triggers.forEach((t) => t.kill());
+  }, []);
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -36,7 +115,59 @@ function HeroHeader() {
   return (
     <header className="hero">
       <div className="hero__inner">
+        {/* STEP 2) 좌측: 섹션 내비게이션 */}
+        <nav className="hero__nav" aria-label="섹션 내비게이션">
+          <button
+            className="navlink"
+            type="button"
+            data-target="p-arch"
+            onClick={handleNav("p-arch")}
+          >
+            Arch
+          </button>
+          <button
+            className="navlink"
+            type="button"
+            data-target="p-profiles"
+            onClick={handleNav("p-profiles")}
+          >
+            Profiles
+          </button>
+          <button
+            className="navlink"
+            type="button"
+            data-target="p-stack"
+            onClick={handleNav("p-stack")}
+          >
+            Stack
+          </button>
+        </nav>
+
+        {/* STEP 3) 우측: GitHub 토글 + Velog 링크 */}
         <div className="hero__actions">
+          {/* Velog: GitHub 오른쪽에 고정 링크 */}
+          <a
+            className="toggle toggle--link"
+            href="https://velog.io/@kqk11"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Velog로 이동"
+            style={{ marginRight: 8 }}
+          >
+            <svg
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M4 4h16v16H4z" opacity=".08" />
+              <path d="M7 7h5v2H9v8H7V7zm10 10h-2l-3.5-4V7H14v5l3 3v2z" />
+            </svg>
+            <span className="toggle__label">Velog</span>
+          </a>
+
+          {/* GitHub 토글 패널 */}
           <button
             ref={btnRef}
             id="ghToggle"
@@ -89,11 +220,21 @@ function HeroHeader() {
                 <li>
                   <a
                     className="gh-link"
-                    href="https://github.com/qkjm1/profile"
+                    href="https://github.com/AniwellProject/AniwellProject"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    profile
+                    Aniwell
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="gh-link"
+                    href="https://github.com/qkjm1/ptoject_25"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    PhysiClick
                   </a>
                 </li>
                 <li>
@@ -543,13 +684,14 @@ export default function App() {
           {/* 필요하다면 상하 spacer를 재배치 */}
           <ArchSection />
         </section>
+
         {/* 2) Profiles */}
         <section className="snap-section" id="p-profiles">
           <ProfilesSection />
         </section>
 
-       
         <section className="snap-section" id="p-stack">
+          <StackSection />
           <StackSection />
         </section>
         {/* 3) 추가 페이지들 */}
