@@ -545,6 +545,10 @@ canvas {
   transition: transform .28s ease, box-shadow .28s ease;
 }
 
+/* 선택: hint 두 줄 허용(기존 파일: styles/stack.css 또는 stack-cards.css) */
+.stack-card__hint { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+
 /* 텍스트 */
 .pc-name   { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: .2px; color: #111; }
 .pc-school { margin: 0; font-size: 14px; color: #4b5563; }
