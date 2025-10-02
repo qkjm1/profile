@@ -288,8 +288,7 @@ function HeroCopy() {
         <span className="hero-copy__emph">개발자 김정민입니다.</span>
       </h1>
       <p className="hero-copy__sub">
-        Lingbo · POVI · Pet-care analytics | Spring Boot · Next.js · Three.js ·
-        WebSocket · Firebase
+        | Spring Boot · OpenAI API · python ·  Next.js · Three.js · node.js |
       </p>
     </div>
   );
