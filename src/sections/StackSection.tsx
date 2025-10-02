@@ -10,7 +10,6 @@ const items: StackItem[] = [
   { name: "Tailwind CSS", src: "https://cdn.simpleicons.org/tailwindcss", href: "https://tailwindcss.com/" },
   { name: "Framer Motion", src: "https://cdn.simpleicons.org/framer/000000", href: "https://www.framer.com/motion/" },
   { name: "GSAP", src: "https://cdn.simpleicons.org/greensock", href: "https://gsap.com/" },
-  { name: "Lenis", src: "https://cdn.simpleicons.org/waveform", href: "https://github.com/darkroomengineering/lenis" },
   { name: "Swiper", src: "https://cdn.simpleicons.org/swiper", href: "https://swiperjs.com/" },
   { name: "Three.js", src: "https://cdn.simpleicons.org/threedotjs/000000", href: "https://threejs.org/" },
   { name: "Vite", src: "https://cdn.simpleicons.org/vite", href: "https://vitejs.dev/" },
