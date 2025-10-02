@@ -127,7 +127,7 @@ function HeroHeader() {
             data-target="p-arch"
             onClick={handleNav("p-arch")}
           >
-            Arch
+            Hello
           </button>
           <button
             className="navlink"
