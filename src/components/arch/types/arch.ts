@@ -18,9 +18,9 @@ export type ArchImage = {
 };
 // types.ts (또는 ProfileItem이 선언된 파일)
 export type HandleLink = {
-  url: string;          // 'https://velog.io/@qkjm1' | 'mailto:...'
-  label: string;        // 'GitHub' | 'Velog' | 'Email'
-  aria?: string;        // 접근성용 라벨(선택)
+  url: string;
+  label?: string;
+  bg?: string; // 선택 (칩 배경색 스타일용)
 };
 
 export type ProfileItem = {
@@ -31,8 +31,8 @@ export type ProfileItem = {
   desc?: string;
   theme?: string;
 
-  // ⬇️ 기존 단일도 호환되게 두고
+  // 👇 기존 단일
   handle?: HandleLink;
-  // ⬇️ 멀티 링크는 여기로
+  // 👇 다중
   handles?: HandleLink[];
 };
