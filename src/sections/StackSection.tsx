@@ -14,9 +14,24 @@ const items: StackItem[] = [
   { name: "Three.js", src: "https://cdn.simpleicons.org/threedotjs/000000", href: "https://threejs.org/" },
   { name: "Vite", src: "https://cdn.simpleicons.org/vite", href: "https://vitejs.dev/" },
   { name: "Thymeleaf", src: "https://cdn.simpleicons.org/thymeleaf", href: "https://www.thymeleaf.org/" },
+  // ✅ 추가: 디자인/프론트 툴 & 라이브러리
+  { name: "Figma", src: "https://cdn.simpleicons.org/figma/000000", href: "https://www.figma.com/" },
+
+  // ✅ 추가: AJAX은 브랜드 아이콘이 없으니 JS 아이콘으로 표기
+  { name: "AJAX (XHR/Fetch)", src: "https://cdn.simpleicons.org/javascript", href: "https://developer.mozilla.org/docs/Web/Guide/AJAX" },
+
+  // ✅ 추가: jQuery
+  { name: "jQuery", src: "https://cdn.simpleicons.org/jquery", href: "https://jquery.com/" },
+
+  // ✅ 추가: JSP (공식 아이콘이 없어 Java 아이콘으로 표기)
+  { name: "JSP", src: "https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1592435019/noticon/z0s5osjhwlxpeo6pxslv.png", href: "https://www.oracle.com/java/" },
+
 
   // ===== Backend / Server =====
-  { name: "Java", src: "https://cdn.simpleicons.org/java/000000" },
+{ 
+  name: "Java", 
+  src: "https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913897/noticon/xbvewg1m3azbpnrzck1k.png" 
+},
   { name: "Spring Boot", src: "https://cdn.simpleicons.org/springboot", href: "https://spring.io/projects/spring-boot" },
   { name: "Apache Maven", src: "https://cdn.simpleicons.org/apachemaven" },
   { name: "Node.js", src: "https://cdn.simpleicons.org/nodedotjs" },
@@ -25,19 +40,7 @@ const items: StackItem[] = [
   { name: "MySQL", src: "https://cdn.simpleicons.org/mysql" },
   { name: "MariaDB", src: "https://cdn.simpleicons.org/mariadb" },
   { name: "Docker", src: "https://cdn.simpleicons.org/docker" },
-  { name: "AWS", src: "https://cdn.simpleicons.org/amazonaws/000000" },
-
-  // ===== Auth / Platform =====
-  { name: "Firebase", src: "https://cdn.simpleicons.org/firebase" },
-  { name: "Google Login", src: "https://cdn.simpleicons.org/google/000000" },
-  { name: "Kakao", src: "https://cdn.simpleicons.org/kakaotalk" },
-  { name: "Naver", src: "https://cdn.simpleicons.org/naver/00C300" },
-
-  // ===== Media / Tools =====
-  { name: "Cloudinary", src: "https://cdn.simpleicons.org/cloudinary" },
-  { name: "Selenium", src: "https://cdn.simpleicons.org/selenium" },
-  { name: "QR (ZXing)", src: "https://cdn.simpleicons.org/qrcode" },
-  { name: "PDF (OpenHTMLToPDF)", src: "https://cdn.simpleicons.org/adobeacrobatreader/EC1C24" },
+  { name: "AWS", src: "https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566777755/noticon/yfmwxv8nhnr5aqaxhxpg.png" },
 
   // ===== AI / API (Sensor 제외) =====
   { name: "OpenAI", src: "https://cdn.simpleicons.org/openai/000000" },
