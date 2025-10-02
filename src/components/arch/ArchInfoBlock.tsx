@@ -1,6 +1,8 @@
-// components/arch/ArchInfoBlock.tsx
+// src/components/arch/ArchInfoBlock.tsx
 import React from "react";
 import type { ArchInfo } from "./types/arch";
+
+import me from "../../img/me.png";
 
 export default function ArchInfoBlock({ item }: { item: ArchInfo }) {
   return (
@@ -9,6 +11,9 @@ export default function ArchInfoBlock({ item }: { item: ArchInfo }) {
         item.content
       ) : (
         <div className="content">
+          {/* ✅ 원하는 위치에 이미지 추가 */}
+          <img src={me} alt="김정민" className="arch__info-img" />
+
           {item.header && <h2 className="header">{item.header}</h2>}
           {item.desc && <p className="desc">{item.desc}</p>}
           {item.link && (

@@ -5,6 +5,7 @@ import ArchImageStack from "../components/arch/ArchImageStack";
 import type { ArchInfo, ArchImage } from "../components/arch/types/arch";
 // 슬라이더 타입만 재사용(컴포넌트는 사용 X)
 import type { ProfileItem } from "../components/ProfileSlider";
+import me from "@/img/me.png"; 
 
 /** ▶ slider 카드 스타일을 그대로 쓰고 싶다면,
  *  1) 여기 클래스명을 ProfileSlider에서 쓰던 카드 클래스명과 맞춰주세요.
@@ -35,16 +36,20 @@ function ProfileCard({ item }: { item: ProfileItem }) {
   );
 }
 
-// 1) 원본 ProfileItem 데이터
 const sliderItems: ProfileItem[] = [
   {
     id: "jm",
     name: "김정민",
-    role: "Creative Engineer",
-    avatar: "src/img/me.png",
-    desc: "Data × UX × AI · Next.js/React/TS · GSAP · Spring Boot · Three.js",
-    handle: { url: "https://github.com/qkjm1", label: "@qkjm1" },
+    role: "풀스택 개발자",
+    avatar: me,
+    desc: "2000.11.11",
     theme: "sun",
+    // ✅ 다중 링크는 여기로
+    handles: [
+      { url: "https://github.com/qkjm1", label: "GitHub" },
+      { url: "https://velog.io/@qkjm1", label: "Velog" },
+      { url: "mailto:kqk9269@gmail.com", label: "Email" }, // ← 본인 이메일로 바꿔줘!
+    ],
   },
 ];
 
