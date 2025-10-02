@@ -9,7 +9,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import ArchSection from "./sections/ArchSection";
-import ProfilesSection from "./sections/ProfilesSection";
+import OuterSection from "./sections/OuterSection";
 import StackSection from "./sections/StackSection";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -32,12 +32,16 @@ function scrollToSection(id: string) {
 
   // 3) #snapper에 붙인 '스냅용 ScrollTrigger'를 잠시 꺼두기 (있으면)
   const snapST = ScrollTrigger.getAll().find(
-    (t) => (t.vars?.trigger as Element | undefined)?.id === "snapper" && !!t.vars?.snap
+    (t) =>
+      (t.vars?.trigger as Element | undefined)?.id === "snapper" &&
+      !!t.vars?.snap
   );
   snapST?.disable(); // 잠깐 비활성화
 
   // 4) Lenis 우선 스크롤
-  const lenis = (window as any).__lenis as InstanceType<typeof Lenis> | undefined;
+  const lenis = (window as any).__lenis as
+    | InstanceType<typeof Lenis>
+    | undefined;
   const duration = 1.1;
 
   if (lenis) {
@@ -154,16 +158,20 @@ function HeroHeader() {
             aria-label="Velog로 이동"
             style={{ marginRight: 8 }}
           >
-            <svg
-              aria-hidden="true"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M4 4h16v16H4z" opacity=".08" />
-              <path d="M7 7h5v2H9v8H7V7zm10 10h-2l-3.5-4V7H14v5l3 3v2z" />
-            </svg>
+            <img
+              className="toggle__icon"
+              src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1581345292/noticon/hbwtrewlv2xxxyqe3qpm.png"
+              alt=""
+              width={18}
+              height={18}
+              loading="lazy"
+              decoding="async"
+              style={{
+                marginRight: 6,
+                verticalAlign: "middle",
+                objectFit: "contain",
+              }}
+            />
             <span className="toggle__label">Velog</span>
           </a>
 
@@ -687,13 +695,17 @@ export default function App() {
 
         {/* 2) Profiles */}
         <section className="snap-section" id="p-profiles">
-          <ProfilesSection />
+          <OuterSection />
         </section>
 
         <section className="snap-section" id="p-stack">
           <StackSection />
-          <StackSection />
         </section>
+
+           <div className="spacer"></div>
+
+        <section className="snap-section" id="p-thanks">
+        </section>   
         {/* 3) 추가 페이지들 */}
         {/* <section className="snap-section" id="p-skills">...</section>
             <section className="snap-section" id="p-contact">...</section> */}

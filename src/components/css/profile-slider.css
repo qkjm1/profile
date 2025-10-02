@@ -7,7 +7,7 @@
     --panel: #2a2d33;
 
     /* 더 진한 카드 베이스 */
-    --card-yellow: #C9CDCF;
+    --card-yellow: #e9edef;
 }
 
 /* ===== Slider wrapper ===== */
@@ -79,7 +79,7 @@
     /* 더 넓게 → 화면 채움 */
     min-height: clamp(220px, 36vh, 320px);
     color: var(--ink);
-    background: var(--sig-sun);
+    background: var(--sig-cloud);
     border-radius: 14px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, .2);
     position: relative;
@@ -304,7 +304,7 @@
     position: absolute;
     right: clamp(10px, 2vw, 22px);
     top: -26px;
-    background: #C9CDCF;
+    background: #ffffff;
     color: #2f3237;
     font-weight: 700;
     font-size: clamp(10px, 1.2vw, 14px);

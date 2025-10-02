@@ -86,7 +86,7 @@ canvas {
   display: flex;
   gap: clamp(12px, 4vw, 60px);
   justify-content: space-between;
-  width: min(92vw, 1100px);
+  width: min(96vw, 1000px);
   max-width: 100%;
   margin-inline: auto;
 }
@@ -517,4 +517,55 @@ canvas {
   background: #fff;
   /* stack-marquee의 배경색과 동일하게 맞추세요 */
   padding-block: 60px;
+}
+
+/* ===== Profile Text Card (공통) ===== */
+.profile-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 8px;
+
+  /* 패딩은 통일: 컴팩트로 */
+  padding: 20px 22px;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(255,255,255,.85), rgba(255,255,255,.75) 40%, rgba(255,255,255,.65) 70%),
+    linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,.4));
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 1px rgba(18,44,85,.06),
+    0 8px 24px rgba(18,44,85,.10);
+  transform: translateY(0);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+/* 텍스트 */
+.pc-name   { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: .2px; color: #111; }
+.pc-school { margin: 0; font-size: 14px; color: #4b5563; }
+.pc-email  { margin-top: 4px; font-size: 14px; color: #0ea5e9; text-decoration: none; border-bottom: 1px dashed currentColor; }
+.pc-email:hover { text-decoration: underline; }
+
+/* 호버/모션 접근성 */
+@media (hover:hover) and (pointer:fine) {
+  .profile-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(18,44,85,.16), 0 3px 10px rgba(18,44,85,.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile-card { transition: none; }
+}
+
+/* data-index로 약한 틸트효과(선택) */
+.img-wrapper[data-index="1"] .profile-card { transform: rotate(-.8deg); }
+.img-wrapper[data-index="2"] .profile-card { transform: rotate(.6deg); }
+.img-wrapper[data-index="3"] .profile-card { transform: rotate(-.3deg); }
+@media (hover:hover) and (pointer:fine) {
+  .img-wrapper:hover .profile-card { transform: rotate(0deg) translateY(-6px); }
 }

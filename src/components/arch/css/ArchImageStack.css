@@ -1,0 +1,136 @@
+/* 텍스트 카드 */
+.profile-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 8px;
+
+  padding: 30px 100px;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(255,255,255,.85), rgba(255,255,255,.75) 40%, rgba(255,255,255,.65) 70%)
+    , linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,.4));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 1px rgba(18,44,85,.06),
+    0 8px 24px rgba(18,44,85,.10);
+  transform: translateY(0);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+/* 텍스트 스타일 */
+.pc-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #111;
+}
+.pc-school {
+  margin: 0;
+  font-size: 14px;
+  color: #4b5563; /* slate-600 */
+}
+.pc-email {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #0ea5e9;  /* sky-500 */
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+.pc-email:hover { text-decoration: underline; }
+
+/* 호버 인터랙션 (마우스 환경에서만) */
+@media (hover:hover) and (pointer:fine) {
+  .profile-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 12px 28px rgba(18,44,85,.16),
+      0 3px 10px rgba(18,44,85,.12);
+  }
+}
+
+/* 축소 모션 선호 사용자 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .profile-card { transition: none; }
+}
+
+/* (선택) data-index 기반 살짝 회전/오프셋 효과 */
+.img-wrapper[data-index="1"] .profile-card { transform: rotate(-0.8deg); }
+.img-wrapper[data-index="2"] .profile-card { transform: rotate(0.6deg); }
+.img-wrapper[data-index="3"] .profile-card { transform: rotate(-0.3deg); }
+/* hover 시 각도 펴지게 */
+@media (hover:hover) and (pointer:fine) {
+  .img-wrapper:hover .profile-card { transform: rotate(0deg) translateY(-6px); }
+}
+
+.arch {
+  display: flex;
+  gap: 60px;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+.arch__left {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+.arch__left .arch__info {
+  max-width: 356px;
+  height: 8ch;                 /* 왼쪽은 1 섹션 = 1 뷰포트 */
+  display: grid;
+  place-items: center;
+}
+.arch__right {
+  flex-shrink: 1;
+  height: 100vh;                 /* 오른쪽 스택이 pin되는 높이 */
+  width: 100%;
+  max-width: 540px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+/* 스택: 가운데 정렬된 고정 프레임 안에 이미지들이 겹침 */
+.arch__right .img-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 420px;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.arch__right .img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  will-change: clip-path, object-position, transform;
+}
+
+/* 모바일: pin 해제 + 교차 나열 */
+@media (max-width: 768px) {
+  .arch { flex-direction: column; gap: 20px; }
+  .arch__left, .arch__right { display: contents; }
+
+  .arch__right { height: auto; max-width: 100%; }
+
+  .arch__right .img-wrapper {
+    position: static;
+    transform: none;
+    height: 360px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .arch__left .arch__info {
+    height: auto;
+    padding: 20px 0;
+  }
+}

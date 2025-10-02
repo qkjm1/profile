@@ -21,7 +21,12 @@ function ProfileCard({ item }: { item: ProfileItem }) {
         {item.role && <p className="profile-card__role">{item.role}</p>}
         <p className="profile-card__desc">{item.desc}</p>
         {item.handle?.url && (
-          <a className="profile-card__link" href={item.handle.url} target="_blank" rel="noreferrer">
+          <a
+            className="profile-card__link"
+            href={item.handle.url}
+            target="_blank"
+            rel="noreferrer"
+          >
             {item.handle.label ?? "more"}
           </a>
         )}
@@ -36,16 +41,20 @@ const sliderItems: ProfileItem[] = [
     id: "jm",
     name: "김정민",
     role: "Creative Engineer",
-    avatar:
-      "https://res.cloudinary.com/dbsuruevi/image/upload/v1757093052/cu8978xjlsjjpjk52ta0.webp",
+    avatar: "src/img/me.png",
     desc: "Data × UX × AI · Next.js/React/TS · GSAP · Spring Boot · Three.js",
     handle: { url: "https://github.com/qkjm1", label: "@qkjm1" },
     theme: "sun",
-  }
+  },
 ];
 
 // 2) ArchInfo로 매핑 (각 아치에 한 카드씩)
-const idOrder = ["green-arch", "blue-arch", "pink-arch", "orange-arch"] as const;
+const idOrder = [
+  "green-arch",
+  "blue-arch",
+  "pink-arch",
+  "orange-arch",
+] as const;
 const leftBlocks: ArchInfo[] = sliderItems.slice(0, 4).map((p, i) => ({
   id: idOrder[i],
   content: <ProfileCard item={p} />,
@@ -57,7 +66,7 @@ const rightImages: ArchImage[] = [
     src: "https://res.cloudinary.com/dbsuruevi/image/upload/v1757093052/cu8978xjlsjjpjk52ta0.webp",
     alt: "Green Architecture",
     z: 4,
-  }
+  },
 ];
 
 export default function ArchSection() {
@@ -68,7 +77,23 @@ export default function ArchSection() {
           <ArchInfoBlock key={b.id} item={b} />
         ))}
       </div>
-      <ArchImageStack images={rightImages} />
+      <ArchImageStack
+        images={[
+          {
+            z: 3,
+            src: "/img/blank.png", // 키용 더미 경로
+            name: "김정민",
+            school: "부산보건대학교",
+            email: "kqk9269@gmail.com",
+            desc: "[산대특] 공공데이터를 활용한 웹앱개발자 양성 과정 (2025-02-28 ~ 2025-10-02)",
+            bullets: [
+              "Next.js/TypeScript",
+              "GSAP/Three.js",
+              "Spring Boot/MySQL",
+            ],
+          },
+        ]}
+      />
     </div>
   );
 }
