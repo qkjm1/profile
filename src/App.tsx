@@ -704,8 +704,7 @@ export default function App() {
 
            <div className="spacer"></div>
 
-        <section className="snap-section" id="p-thanks">
-        </section>   
+        <div className="spacer"></div>  
         {/* 3) 추가 페이지들 */}
         {/* <section className="snap-section" id="p-skills">...</section>
             <section className="snap-section" id="p-contact">...</section> */}

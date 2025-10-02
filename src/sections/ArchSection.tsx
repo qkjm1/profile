@@ -7,34 +7,47 @@ import type { ArchInfo, ArchImage } from "../components/arch/types/arch";
 import type { ProfileItem } from "../components/ProfileSlider";
 import me from "@/img/me.png"; 
 
-/** ▶ slider 카드 스타일을 그대로 쓰고 싶다면,
- *  1) 여기 클래스명을 ProfileSlider에서 쓰던 카드 클래스명과 맞춰주세요.
- *  2) 그 CSS를 전역에 import 해 두면 동일한 룩이 나옵니다.
- */
 function ProfileCard({ item }: { item: ProfileItem }) {
+  // ✅ handles 우선, 없으면 handle을 배열로 변환해 사용
+  const links = (item.handles && item.handles.length > 0)
+    ? item.handles
+    : (item.handle ? [item.handle] : []);
+
   return (
     <article className="profile-card">
       <div className="profile-card__media">
         <img src={item.avatar} alt={item.name} />
       </div>
+
       <div className="profile-card__body">
         <h3 className="profile-card__title">{item.name}</h3>
         {item.role && <p className="profile-card__role">{item.role}</p>}
-        <p className="profile-card__desc">{item.desc}</p>
-        {item.handle?.url && (
-          <a
-            className="profile-card__link"
-            href={item.handle.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {item.handle.label ?? "more"}
-          </a>
+        {item.desc && <p className="profile-card__desc">{item.desc}</p>}
+
+        {links.length > 0 && (
+          <div className="profile-card__links">
+            {links.map((h, i) => (
+              <a
+                key={h.url || i}
+                className="profile-card__link"
+                href={h.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={h.bg ? { backgroundColor: h.bg } : undefined}
+              >
+                {h.label
+                  ?? (h.url?.startsWith("mailto:")
+                        ? h.url.replace("mailto:", "")
+                        : h.url)}
+              </a>
+            ))}
+          </div>
         )}
       </div>
     </article>
   );
 }
+
 
 const sliderItems: ProfileItem[] = [
   {
