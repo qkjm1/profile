@@ -1,4 +1,4 @@
-"use client";
+
 //src/components/OuterCarousel.tsx
 
 import React, { useMemo, useRef, useState, useEffect } from "react";

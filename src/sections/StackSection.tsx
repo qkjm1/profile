@@ -1,6 +1,5 @@
 // src/sections/StackSection.tsx
 import React, { useMemo, useState } from "react";
-import "../components/stack/stack-cards.css";
 import StackCards, { type StackItem } from "../components/stack/StackCards";
 
 const items: StackItem[] = [
