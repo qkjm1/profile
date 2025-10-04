@@ -248,7 +248,7 @@ function HeroHeader() {
                 <li>
                   <a
                     className="gh-link"
-                    href="https://github.com/qkjm1/lingbo"
+                    href="https://github.com/qkjm1/dashboard"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -258,7 +258,7 @@ function HeroHeader() {
                 <li>
                   <a
                     className="gh-link"
-                    href="https://github.com/qkjm1/povi-project"
+                    href="https://github.com/povi-project/povi-project"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
