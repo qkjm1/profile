@@ -76,7 +76,6 @@ export default function StackSection() {
       <div className="stack-container">
         <header className="stack-header">
           <h2 className="stack-title">Skill & Stack</h2>
-          <p className="stack-desc">5행 × 3열로 페이지를 넘기며 볼 수 있어요.</p>
         </header>
 
         {/* 고정 3열 */}
