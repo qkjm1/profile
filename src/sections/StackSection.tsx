@@ -74,10 +74,7 @@ export default function StackSection() {
   return (
     <section className="stack-section" aria-label="기술 스택">
       <div className="stack-container">
-        <header className="stack-header">
-          <h2 className="stack-title">Skill & Stack</h2>
-        </header>
-
+    
         {/* 고정 3열 */}
         <StackCards
           items={pages[page] ?? []}

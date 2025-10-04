@@ -26,16 +26,17 @@
 
 .stack-container {
   max-width: var(--stack-max-w);
-  margin-inline: auto;
-  padding-inline: var(--stack-section-pad-x);
+  margin-top: -5rem;
 }
 
 /* 헤더 */
 .stack-header {
-  margin-bottom: 1.5rem; /* mb-6 */
+  max-width: var(--stack-max-w);
+  margin-inline: auto;
 }
 
 .stack-title {
+  margin-top: 5rem;               /* -mt-10 */
   font-size: 1.5rem;     /* text-2xl */
   line-height: 2rem;
   font-weight: 700;

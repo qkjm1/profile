@@ -288,7 +288,7 @@ function HeroCopy() {
         <span className="hero-copy__emph">개발자 김정민입니다.</span>
       </h1>
       <p className="hero-copy__sub">
-        | Spring Boot · OpenAI API · python ·  Next.js · Three.js · node.js |
+        | Spring Boot · OpenAI API · python · Next.js · Three.js · node.js |
       </p>
     </div>
   );
@@ -698,12 +698,15 @@ export default function App() {
         </section>
 
         <section className="snap-section" id="p-stack">
+          <header className="stack-header">
+            <h2 className="stack-title">Skill & Stack</h2>
+          </header>
           <StackSection />
         </section>
 
-           <div className="spacer"></div>
+        <div className="spacer"></div>
 
-        <div className="spacer"></div>  
+        <div className="spacer"></div>
         {/* 3) 추가 페이지들 */}
         {/* <section className="snap-section" id="p-skills">...</section>
             <section className="snap-section" id="p-contact">...</section> */}
