@@ -253,7 +253,7 @@
 /* 텍스트 */
 .pc-name   { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: .2px; color: #111; }
 .pc-school { margin: 0; font-size: 14px; color: #4b5563; }
-.pc-email  { margin-top: 4px; font-size: 14px; color: #0ea5e9; text-decoration: none; border-bottom: 1px dashed currentColor; }
+.pc-email  { margin-top: 4px; font-size: 14px; color: #ee4747; text-decoration: none; border-bottom: 1px dashed currentColor; }
 .pc-email:hover { text-decoration: underline; }
 
 /* 호버/모션 접근성 */
@@ -271,6 +271,185 @@
 .img-wrapper[data-index="1"] .profile-card { transform: rotate(-.8deg); }
 .img-wrapper[data-index="2"] .profile-card { transform: rotate(.6deg); }
 .img-wrapper[data-index="3"] .profile-card { transform: rotate(-.3deg); }
+@media (hover:hover) and (pointer:fine) {
+  .img-wrapper:hover .profile-card { transform: rotate(0deg) translateY(-6px); }
+}
+
+/* ===== 리본(좌상단 작은 탭) ===== */
+.pc-ribbon {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1b0f13;
+  background: linear-gradient(180deg,#eff6ff,#ffffff);
+  border: 1px solid rgba(11,95,255,.18);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(11,95,255,.12);
+}
+.pc-ribbon__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #1b0f13;
+  box-shadow: 0 0 0 3px rgba(11,95,255,.15);
+}
+
+/* ===== 헤더(아바타 + 이름/역할칩) ===== */
+.profile-card__head {
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+.profile-card__avatar img {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 1px 1px rgba(18,44,85,.06), 0 8px 18px rgba(18,44,85,.10);
+}
+.profile-card__titlebox {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+}
+.pc-name {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: #111;
+}
+.pc-name svg { flex: 0 0 auto; opacity: .9; }
+
+.pc-rolechip {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  width: fit-content;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0a0f2d;
+  background: radial-gradient(120% 150% at 0% 0%, rgba(255,255,255,.9), rgba(240,244,255,.9));
+  border: 1px solid rgba(10,15,45,.08);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+.pc-rolechip svg { opacity: .9; }
+
+/* ===== 메타 라인 (desc) ===== */
+.pc-meta {
+  margin: 10px 0 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4b5563;
+}
+.pc-meta svg { opacity: .8; }
+
+/* ===== 스킬 배지 ===== */
+.pc-badges {
+  margin: 10px 0 2px 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pc-badges li {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0a0f2d;
+  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(245,248,255,.85));
+  border: 1px solid rgba(10,15,45,.08);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+
+/* ===== 링크 리스트: 아이콘+텍스트 세로 스택 ===== */
+.profile-card__links {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.profile-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,.06);
+  background: rgba(255,255,255,.65);
+  border-radius: 10px;
+  text-decoration: none;
+  color: #111;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.profile-card__link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(11,95,255,.25);
+  box-shadow: 0 10px 20px rgba(11,95,255,.10), 0 2px 6px rgba(18,44,85,.08);
+}
+.pc-linkicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #eef2ff, #ffffff);
+  color: #4c1f1f;
+  flex: 0 0 auto;
+  box-shadow: inset 0 0 0 1px rgba(11,95,255,.12);
+}
+.pc-linktext {
+  line-height: 1.2;
+  word-break: break-all;
+}
+
+/* ===== 카드 베이스(기존 profile-card 보강) ===== */
+.profile-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  justify-items: stretch;
+  padding: 18px 18px 20px 18px;
+
+  background:
+    radial-gradient(140% 140% at 0% 0%, rgba(255,255,255,.92), rgba(255,255,255,.72) 60%, rgba(255,255,255,.68) 80%),
+    linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.35));
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  box-shadow: 0 1px 1px rgba(18,44,85,.06), 0 8px 24px rgba(18,44,85,.10);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  .profile-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(18,44,85,.16), 0 3px 10px rgba(18,44,85,.12);
+  }
+}
+
+/* ===== img-wrapper에 살짝 각도 주는 연출 유지 ===== */
+.img-wrapper[data-index="1"] .profile-card { transform: rotate(-.6deg); }
+.img-wrapper[data-index="2"] .profile-card { transform: rotate(.4deg); }
+.img-wrapper[data-index="3"] .profile-card { transform: rotate(-.2deg); }
 @media (hover:hover) and (pointer:fine) {
   .img-wrapper:hover .profile-card { transform: rotate(0deg) translateY(-6px); }
 }

@@ -388,3 +388,8 @@
   font-weight: 700;
   line-height: 1;
 }
+
+.imodal-left { position: relative; }   /* 이미 있을 수 있음 */
+.imodal-media { position: relative; z-index: 1; }
+.imodal-nav { z-index: 2; }            /* ← 이게 핵심! 두 버튼이 항상 위로 */
+
