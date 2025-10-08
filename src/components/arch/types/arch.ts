@@ -29,7 +29,6 @@ export type ProfileItem = {
   role?: string;
   avatar?: string;
   desc?: string;
-  theme?: string;
 
   // ⬇️ 기존 단일도 호환되게 두고
   handle?: HandleLink;

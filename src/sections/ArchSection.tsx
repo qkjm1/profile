@@ -1,13 +1,12 @@
-// sections/ArchSection.tsx
+// src/sections/ArchSection.tsx
 import React from "react";
 import ArchInfoBlock from "../components/arch/ArchInfoBlock";
 import ArchImageStack from "../components/arch/ArchImageStack";
-import type { ArchInfo, ArchImage } from "../components/arch/types/arch";
-// 슬라이더 타입만 재사용(컴포넌트는 사용 X)
-import type { ProfileItem, Props } from "../components/ProfileSlider";
+import type { ArchInfo, ArchImage, ProfileItem } from "../components/arch/types/arch";
 import me from "@/img/me.png"; 
+import whrite from "@/img/whrite.png";
 
-function ProfileCard({ item }: { item: Props }) {
+function ProfileCard({ item }: { item: ProfileItem }) {
   // ✅ handles 우선, 없으면 handle을 배열로 변환해 사용
   const links = (item.handles && item.handles.length > 0)
     ? item.handles
@@ -33,7 +32,6 @@ function ProfileCard({ item }: { item: Props }) {
                 href={h.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={h.bg ? { backgroundColor: h.bg } : undefined}
               >
                 {h.label
                   ?? (h.url?.startsWith("mailto:")
@@ -56,22 +54,18 @@ const sliderItems: ProfileItem[] = [
     role: "풀스택 개발자",
     avatar: me,
     desc: "2000.11.11",
-    theme: "sun",
     // ✅ 다중 링크는 여기로
     handles: [
       { url: "https://github.com/qkjm1", label: "GitHub" },
       { url: "https://velog.io/@qkjm1", label: "Velog" },
-      { url: "mailto:kqk9269@gmail.com", label: "Email" }, // ← 본인 이메일로 바꿔줘!
+      { url: "mailto:kqk9269@gmail.com", label: "Email" }, 
     ],
   },
 ];
 
 // 2) ArchInfo로 매핑 (각 아치에 한 카드씩)
 const idOrder = [
-  "green-arch",
-  "blue-arch",
-  "pink-arch",
-  "orange-arch",
+  "green-arch"
 ] as const;
 const leftBlocks: ArchInfo[] = sliderItems.slice(0, 4).map((p, i) => ({
   id: idOrder[i],
@@ -81,9 +75,9 @@ const leftBlocks: ArchInfo[] = sliderItems.slice(0, 4).map((p, i) => ({
 // 3) 우측 이미지 스택(기존 그대로)
 const rightImages: ArchImage[] = [
   {
-    src: "https://res.cloudinary.com/dbsuruevi/image/upload/v1757093052/cu8978xjlsjjpjk52ta0.webp",
+    src: whrite,
     alt: "Green Architecture",
-    z: 4,
+    z: 1,
   },
 ];
 
@@ -95,11 +89,12 @@ export default function ArchSection() {
           <ArchInfoBlock key={b.id} item={b} />
         ))}
       </div>
+
       <ArchImageStack
         images={[
           {
-            z: 3,
-            src: "/img/blank.png", // 키용 더미 경로
+            z: 2,
+            src: "src/img/whrite.png", // 키용 더미 경로
             name: "김정민",
             school: "부산보건대학교",
             email: "kqk9269@gmail.com",
@@ -110,6 +105,7 @@ export default function ArchSection() {
               "Spring Boot/MySQL",
             ],
           },
+          ...rightImages,
         ]}
       />
     </div>

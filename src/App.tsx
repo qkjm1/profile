@@ -381,7 +381,7 @@ function BackgroundSVG() {
               y2="560"
             >
               <stop offset="0%" stopColor="#C9CDCF" />
-              <stop offset="50%" stopColor="#ffff" />
+              <stop offset="50%" stopColor="#f8f7f6" />
             </linearGradient>
           </defs>
           <path
@@ -394,7 +394,7 @@ function BackgroundSVG() {
 
       <defs>
         <mask id="SvgjsMask1330">
-          <rect width="1440" height="560" fill="#ffffff" />
+          <rect width="1440" height="560" fill="#f8f7f6" />
         </mask>
         <linearGradient
           x1="50%"

@@ -1,3 +1,5 @@
+// src/sections/OuterSection.tsx
+
 import OuterCarousel, { PanelItem } from "../components/OuterCarousel";
 import imgPhysiclick from "@/img/physiclick.png";
 import imgAniwell from "@/img/aniwell_main.png";

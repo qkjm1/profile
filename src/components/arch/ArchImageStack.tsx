@@ -1,6 +1,7 @@
 // components/arch/ArchImageStack.tsx
 import React from "react";
 import type { ArchImage } from "./types/arch";
+import "../arch/css/ArchImageStack.css";
 
 // 🔹 타입 파일 건드리지 않기 위해, 이 컴포넌트 안에서만 확장 필드 선언
 type IntroFields = {
