@@ -55,10 +55,13 @@ function scrollToSection(id: string) {
     snapST?.enable();
   }, Math.round(duration * 1000) + 120);
 }
+
+
 function HeroHeader() {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
+  const heroInnerRef = useRef<HTMLDivElement | null>(null);
 
   const handleNav = useCallback(
     (targetId: string) => () => {
@@ -66,6 +69,79 @@ function HeroHeader() {
     },
     []
   );
+
+  useLayoutEffect(() => {
+  const el = heroInnerRef.current;
+  if (!el) return;
+
+  // 초기 상태: 숨김
+  gsap.set(el, { yPercent: -120, autoAlpha: 0, pointerEvents: "none" });
+
+  let idleTimer: number | null = null;
+  const clearIdle = () => { if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; } };
+
+  const show = () => {
+    clearIdle();
+    gsap.to(el, {
+      yPercent: 0,
+      autoAlpha: 1,
+      duration: 0.28,
+      ease: "power2.out",
+      onStart: () => (el.style.pointerEvents = "auto"),
+    });
+  };
+
+  const hide = () => {
+    if (open) return; // 패널 열려 있으면 유지
+    gsap.to(el, {
+      yPercent: -120,
+      autoAlpha: 0,
+      duration: 0.42,
+      ease: "power2.inOut",
+      onComplete: () => (el.style.pointerEvents = "none"),
+    });
+  };
+
+  const scheduleHide = (ms = 1000) => {
+    clearIdle();
+    idleTimer = window.setTimeout(() => {
+      // hover/focus 중이면 유지
+      const isHover = el.matches(":hover");
+      const hasFocus = el.contains(document.activeElement);
+      if (!isHover && !hasFocus) hide();
+    }, ms);
+  };
+
+  // ScrollTrigger 글로벌 이벤트 사용
+  const onStart = () => show();
+  const onEnd = () => scheduleHide(900);
+
+  ScrollTrigger.addEventListener("scrollStart", onStart);
+  ScrollTrigger.addEventListener("scrollEnd", onEnd);
+
+  // 헤더 마우스/포커스 인터랙션 시 항상 보이기
+  const onEnter = () => show();
+  const onLeave = () => scheduleHide(600);
+  el.addEventListener("mouseenter", onEnter);
+  el.addEventListener("focusin", onEnter);
+  el.addEventListener("mouseleave", onLeave);
+  el.addEventListener("focusout", onLeave);
+
+  // 패널 상태가 바뀌면 즉시 반영 (열리면 표시/닫히면 일정후 숨김)
+  if (open) show();
+  else scheduleHide(600);
+
+  return () => {
+    ScrollTrigger.removeEventListener("scrollStart", onStart);
+    ScrollTrigger.removeEventListener("scrollEnd", onEnd);
+    el.removeEventListener("mouseenter", onEnter);
+    el.removeEventListener("focusin", onEnter);
+    el.removeEventListener("mouseleave", onLeave);
+    el.removeEventListener("focusout", onLeave);
+    clearIdle();
+  };
+}, [open]);
+
 
   useLayoutEffect(() => {
     // 버튼 맵: data-target 속성으로 조회
@@ -118,7 +194,7 @@ function HeroHeader() {
 
   return (
     <header className="hero">
-      <div className="hero__inner">
+      <div className="hero__inner" ref={heroInnerRef}>
         {/* STEP 2) 좌측: 섹션 내비게이션 */}
         <nav className="hero__nav" aria-label="섹션 내비게이션">
           <button

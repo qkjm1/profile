@@ -1,26 +1,25 @@
-
 //src/components/OuterCarousel.tsx
-
 import React, { useMemo, useRef, useState, useEffect } from "react";
-import "./css/outer-carousel.css";
+import "../outer/css/outer-carousel.css";
+import InstaModal, { MediaItem, ModalBlock } from "./InstaModal";
 
+
+// ✅ PanelItem에 blocks 추가
 export type PanelItem = {
   id: string | number;
-  image: string; // 패널 배경 이미지 (필수)
-  title?: string; // 패널 위에 보여줄 제목(옵션)
-  text?: string; // 패널 위에 보여줄 텍스트(옵션)
-  href?: string; // 패널 클릭시 이동할 링크(옵션)
+  image: string;
+  title?: string;
+  text?: string;
+  href?: string;
+  media?: MediaItem[];      // (기존) 모달 좌측 갤러리
+  blocks?: ModalBlock[];    // (신규) 모달 내부 (사진+설명) 세트 슬라이드
 };
 
 type Props = {
   items: PanelItem[];
-  /** 한 화면(슬라이드) 당 패널 개수 — CodePen 느낌은 3 */
   perSlide?: 3 | 2 | 1;
-  /** 패널 높이(px) */
   panelHeight?: number;
-  /** 컨테이너 최대폭(px) */
   maxWidth?: number;
-  /** 자동 넘김(ms). 0이면 자동 슬라이드 없음 */
   autoplayMs?: number;
 };
 
@@ -49,28 +48,55 @@ export default function OuterCarousel({
   const prev = () => go(index - 1);
   const next = () => go(index + 1);
 
-  // 자동 슬라이드 (옵션)
+  // --- 모달 상태 ---
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeIdx, setActiveIdx] = useState<number>(0); // items 기준 index
+
+  // 카드 클릭 → 모달 오픈
+  const openModal = (globalIdx: number) => {
+    setActiveIdx(globalIdx);
+    setIsOpen(true);
+    // 바디 스크롤 잠금
+    document.documentElement.style.overflow = "hidden";
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+    document.documentElement.style.overflow = "";
+  };
+  const gotoPrevItem = () => setActiveIdx((i) => (i - 1 + items.length) % items.length);
+  const gotoNextItem = () => setActiveIdx((i) => (i + 1) % items.length);
+
+  // 자동 슬라이드
   useEffect(() => {
     if (!autoplayMs) return;
     const t = setInterval(next, autoplayMs);
     return () => clearInterval(t);
   }, [index, autoplayMs, pages.length]);
 
-  // 키보드 ← →
+  // 키보드 ← → & ESC (모달 열렸을 때는 모달 내 네비/닫기)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (isOpen) {
+        if (e.key === "Escape") closeModal();
+        if (e.key === "ArrowLeft") gotoPrevItem();
+        if (e.key === "ArrowRight") gotoNextItem();
+        return;
+      }
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [index, pages.length]);
+  }, [isOpen, index, pages.length]);
+
+  // items의 전역 인덱스를 계산(페이지/열 기반)
+  const getGlobalIndex = (pi: number, col: number) => {
+    const base = pi * perSlide;
+    return base + col;
+  };
 
   return (
-    <div
-      className="oc-wrapper"
-      style={{ ["--ocMaxW" as any]: `${maxWidth}px` }}
-    >
+    <div className="oc-wrapper" style={{ ["--ocMaxW" as any]: `${maxWidth}px` }}>
       {/* 도트 내비게이션 */}
       <div className="oc-dots" role="tablist" aria-label="carousel pagination">
         {pages.map((_, i) => (
@@ -87,11 +113,7 @@ export default function OuterCarousel({
 
       <div className="oc-row">
         {/* 왼쪽 외부 화살표 */}
-        <button
-          className="oc-outer-btn oc-outer-btn--left"
-          aria-label="이전"
-          onClick={prev}
-        >
+        <button className="oc-outer-btn oc-outer-btn--left" aria-label="이전" onClick={prev}>
           <svg viewBox="0 0 129 129" aria-hidden>
             <path d="m88.6,121.3c0.8,0.8 1.8,1.2 2.9,1.2s2.1-0.4 2.9-1.2c1.6-1.6 1.6-4.2 0-5.8l-51-51 51-51c1.6-1.6 1.6-4.2 0-5.8s-4.2-1.6-5.8,0l-54,53.9c-1.6,1.6-1.6,4.2 0,5.8l54,53.9z" />
           </svg>
@@ -112,7 +134,7 @@ export default function OuterCarousel({
                 key={`slide-${pi}`}
                 style={{ ["--ocPanelH" as any]: `${panelHeight}px` }}
               >
-                {page.map((card) => {
+                {page.map((card, colIdx) => {
                   const body = (
                     <>
                       <div
@@ -122,40 +144,33 @@ export default function OuterCarousel({
                       />
                       {(card.title || card.text) && (
                         <div className="oc-card-overlay">
-                          {card.title && (
-                            <h3 className="oc-card-title">{card.title}</h3>
-                          )}
-                          {card.text && (
-                            <p className="oc-card-text">{card.text}</p>
-                          )}
+                          {card.title && <h3 className="oc-card-title">{card.title}</h3>}
+                          {card.text && <p className="oc-card-text">{card.text}</p>}
                         </div>
                       )}
                     </>
                   );
+                  const globalIdx = getGlobalIndex(pi, colIdx);
                   return (
-                    <div className="oc-card" key={card.id}>
-                      {card.href ? (
-                        <a
-                          className="oc-card-link"
-                          href={card.href}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {body}
-                        </a>
-                      ) : (
-                        body
-                      )}
+                    <div
+                      className="oc-card"
+                      key={card.id}
+                      onClick={() => openModal(globalIdx)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") openModal(globalIdx);
+                      }}
+                    >
+                      {/* a태그로 외부 이동하던 기존 UX는 모달 내부의 '열기' 버튼로 대체 */}
+                      {body}
                     </div>
                   );
                 })}
-                {/* 페이지에 카드가 부족하면 빈 칸 채우기(정렬 유지) */}
+                {/* 빈칸 채우기 */}
                 {page.length < perSlide &&
                   Array.from({ length: perSlide - page.length }).map((_, i) => (
-                    <div
-                      className="oc-card oc-card--empty"
-                      key={`empty-${i}`}
-                    />
+                    <div className="oc-card oc-card--empty" key={`empty-${i}`} />
                   ))}
               </div>
             ))}
@@ -163,16 +178,23 @@ export default function OuterCarousel({
         </div>
 
         {/* 오른쪽 외부 화살표 */}
-        <button
-          className="oc-outer-btn oc-outer-btn--right"
-          aria-label="다음"
-          onClick={next}
-        >
+        <button className="oc-outer-btn oc-outer-btn--right" aria-label="다음" onClick={next}>
           <svg viewBox="0 0 129 129" aria-hidden>
             <path d="m40.4,121.3c-0.8,0.8-1.8,1.2-2.9,1.2s-2.1-0.4-2.9-1.2c-1.6-1.6-1.6-4.2 0-5.8l51-51-51-51c-1.6-1.6-1.6-4.2 0-5.8 1.6-1.6 4.2-1.6 5.8,0l53.9,53.9c1.6,1.6 1.6,4.2 0,5.8l-53.9,53.9z" />
           </svg>
         </button>
       </div>
+
+      {/* 인스타 PC 스타일 모달 */}
+      {isOpen && (
+        <InstaModal
+          items={items}
+          activeIndex={activeIdx}
+          onClose={closeModal}
+          onPrev={gotoPrevItem}
+          onNext={gotoNextItem}
+        />
+      )}
     </div>
   );
 }

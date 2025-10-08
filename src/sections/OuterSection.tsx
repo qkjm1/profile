@@ -1,6 +1,6 @@
 // src/sections/OuterSection.tsx
 
-import OuterCarousel, { PanelItem } from "../components/OuterCarousel";
+import OuterCarousel, { PanelItem } from "../components/outer/OuterCarousel";
 import imgPhysiclick from "@/img/physiclick.png";
 import imgAniwell from "@/img/aniwell_main.png";
 import imgPovi from "@/img/povi.png";
@@ -8,11 +8,33 @@ import imgDashboard from "@/img/dashboard.png";
 
 const panels: PanelItem[] = [
   {
-    id: 1,
-    image: imgPhysiclick,
-    title: "PhysiClick",
-    text: "webGl·three.js 기반 3D 시뮬레이터",
-  },
+  id: 1,
+  image: imgPhysiclick, // 썸네일 용(없어도 무방)
+  blocks: [
+    {
+      media: [
+        { src: "/videos/pc-demo.mp4", type: "video" },
+      ],
+      title: "개요",
+      text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오",
+      href: "https://example.com/overview"
+    },
+    {
+      media: [
+        { src: imgPhysiclick },
+      ],
+      title: "아키텍처",
+      text: "Three.js + GLTFLoader, 커스텀 인터랙션(줌/팬/회전) 등",
+    },
+    {
+      media: [
+        { src: imgPhysiclick },
+      ],
+      title: "UX 플로우",
+      text: "유저 여정과 디버깅 로깅 포인트",
+    }
+  ]
+},
   {
     id: 2,
     image: imgAniwell,
