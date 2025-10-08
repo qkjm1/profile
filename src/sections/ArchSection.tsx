@@ -4,10 +4,10 @@ import ArchInfoBlock from "../components/arch/ArchInfoBlock";
 import ArchImageStack from "../components/arch/ArchImageStack";
 import type { ArchInfo, ArchImage } from "../components/arch/types/arch";
 // 슬라이더 타입만 재사용(컴포넌트는 사용 X)
-import type { ProfileItem } from "../components/ProfileSlider";
+import type { ProfileItem, Props } from "../components/ProfileSlider";
 import me from "@/img/me.png"; 
 
-function ProfileCard({ item }: { item: ProfileItem }) {
+function ProfileCard({ item }: { item: Props }) {
   // ✅ handles 우선, 없으면 handle을 배열로 변환해 사용
   const links = (item.handles && item.handles.length > 0)
     ? item.handles
