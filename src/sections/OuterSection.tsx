@@ -2,7 +2,12 @@
 
 import OuterCarousel, { PanelItem } from "../components/outer/OuterCarousel";
 import imgPhysiclick from "@/img/physiclick.png";
+import Physiclickmain from "@/img/physiclick/main.mp4";
+import Physiclickmain2 from "@/img/physiclick/main2.mp4";
 import imgAniwell from "@/img/aniwell_main.png";
+import login_1 from "@/img/aniwell/login_1.png";
+import login_2 from "@/img/aniwell/login_2.png";
+import login_3 from "@/img/aniwell/login_3.png";
 import imgPovi from "@/img/povi.png";
 import imgDashboard from "@/img/dashboard.png";
 
@@ -13,15 +18,14 @@ const panels: PanelItem[] = [
   blocks: [
     {
       media: [
-        { src: "/videos/pc-demo.mp4", type: "video" },
+        { src: Physiclickmain, type: "video" },
       ],
       title: "개요",
-      text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오",
-      href: "https://example.com/overview"
+      text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오"
     },
     {
       media: [
-        { src: imgPhysiclick },
+        { src: Physiclickmain2, type: "video" },
       ],
       title: "아키텍처",
       text: "Three.js + GLTFLoader, 커스텀 인터랙션(줌/팬/회전) 등",
@@ -38,8 +42,44 @@ const panels: PanelItem[] = [
   {
     id: 2,
     image: imgAniwell,
-    title: "Aniwell",
-    text: "반려동물 건강 분석 · 진료기록 OCR/QR 리포트 분석",
+    blocks: [
+    {
+      media: [
+        { src: login_1 },
+      ],
+      title: "개요",
+      text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오",
+      href: "https://example.com/overview"
+    },
+    {
+      media: [
+        { src: login_2 },
+      ],
+      title: "아키텍처",
+      text: "Three.js + GLTFLoader, 커스텀 인터랙션(줌/팬/회전) 등",
+    },
+    {
+      media: [
+        { src: login_3 },
+      ],
+      title: "UX 플로우",
+      text: "유저 여정과 디버깅 로깅 포인트",
+    },
+    {
+      media: [
+        { src: login_3 },
+      ],
+      title: "UX 플로우",
+      text: "유저 여정과 디버깅 로깅 포인트",
+    },
+    {
+      media: [
+        { src: login_3 },
+      ],
+      title: "UX 플로우",
+      text: "유저 여정과 디버깅 로깅 포인트",
+    }
+  ]
   },
   {
     id: 3,
