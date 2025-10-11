@@ -10,7 +10,6 @@ export type PanelItem = {
   image: string;
   title?: string;
   text?: string;
-  texts?: string[];
   href?: string;
   media?: MediaItem[];      // (기존) 모달 좌측 갤러리
   blocks?: ModalBlock[];    // (신규) 모달 내부 (사진+설명) 세트 슬라이드
