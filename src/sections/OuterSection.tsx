@@ -6,6 +6,7 @@ import Physiclickmain from "@/img/physiclick/main.mp4";
 import Physiclickmain2 from "@/img/physiclick/main2.mp4";
 import Physiclickdetail from "@/img/physiclick/detail.png";
 import imgAniwell from "@/img/aniwell_main.png";
+import mainVideo from "@/img/aniwell/main.mp4";
 import home from "@/img/aniwell/home.png";
 import main from "@/img/aniwell/main.png";
 import login_1 from "@/img/aniwell/login_1.png";
@@ -55,11 +56,17 @@ const panels: PanelItem[] = [
     blocks: [
     {
       media: [
+        { src: mainVideo, type: "video" },
+      ],
+      title: "개요",
+      text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오 \n Next.js/TypeScript, \n GSAP/Three.js", 
+    },
+    {
+      media: [
         { src: home },
       ],
       title: "개요",
       text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오",
-      href: "https://example.com/overview"
     },
     {
       media: [

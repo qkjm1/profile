@@ -325,7 +325,7 @@
   padding: 16px;
   overflow: auto;
 }
-.imodal-text { margin: 0; color: #222; line-height: 1.6; white-space: pre-wrap; display: block; }
+.imodal-text { margin: 0; color: #222; line-height: 1.6; white-space: pre-line; }
 .imodal-text--muted { color: #777; }
 
 .imodal-foot {
