@@ -19,7 +19,7 @@ import gall from "@/img/aniwell/AniWell_1.png";
 import crew_1 from "@/img/aniwell/AniWell_41.png";
 //
 import imgPovi from "@/img/povi.png";
-import videoPovi from "@/img/povi/povi.mp4";
+
 //
 import imgDashboard from "@/img/dashboard.png";
 
