@@ -68,8 +68,8 @@ const panels: PanelItem[] = [
     blocks: [
       {
         media: [{ src: mainVideo, type: "video" }],
-        title: "개요",
-        text: "Next.js/TypeScript",
+        title: "Aniwell",
+        text: "- Tailwind CSS\n- AOS (Animate On Scroll): \n일부 요소 페이드/슬라이드 인 애니메이션\n- GSAP + ScrollTrigger/ScrollTo: \n섹션 핀(sticky), 스크롤 동기화, 시퀀스 애니메이션\n- SVG 로고 연출: \n로고 path 드로잉 + 클리핑을 이용한 물결(wave) 충전 이펙트, 필터 텍스처(grain)",
         links: [
           { url: "https://www.figma.com/design/r6bISppwHcxGGB8lh64XYL/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Ry5drSr1oa2Cf4S7-1", label: "피그마", comment: "피그마 세부 디자인" },
           { url: "https://www.notion.so/22a25b09255c80df9e02f2da4a8238ee" , label: "팀프로젝트 분담&일정", comment: "notion 이용" },
