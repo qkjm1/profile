@@ -17,6 +17,7 @@ import login_2 from "@/img/aniwell/login_2.png";
 import login_3 from "@/img/aniwell/login_3.png";
 import gall from "@/img/aniwell/AniWell_1.png";
 import crew_1 from "@/img/aniwell/AniWell_41.png";
+import crew_2 from "@/img/aniwell/crew_1.png";
 //
 import imgPovi from "@/img/povi.png";
 
@@ -103,12 +104,17 @@ const panels: PanelItem[] = [
       },
        {
         media: [{ src: crew_1 }],
-        title: "UX 플로우",
-        text: "유저 여정과 디버깅 로깅 포인트",
+        title: "산책모임 메인",
+        text: "-",
+      },
+      {
+        media: [{ src: crew_2 }],
+        title: "산책모임 메인",
+        text: "-",
       },
        {
         media: [{ src: gall }],
-        title: "세부화면",
+        title: "반려동물 갤러리",
       },
     ],
   },
