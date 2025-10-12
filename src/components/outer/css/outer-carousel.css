@@ -393,3 +393,18 @@
 .imodal-media { position: relative; z-index: 1; }
 .imodal-nav { z-index: 2; }            /* ← 이게 핵심! 두 버튼이 항상 위로 */
 
+
+
+.imodal-links { margin-top: 16px; display: grid; gap: 8px; }
+.imodal-links__title { font-weight: 700; font-size: 14px; opacity: 0.8; margin-bottom: 4px; }
+.imodal-links__list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.imodal-links__item { display: grid; gap: 4px; }
+.imodal-links__anchor {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.6); backdrop-filter: blur(6px);
+  text-decoration: none;
+}
+.imodal-links__label { font-weight: 600; }
+.imodal-links__url { opacity: .7; }
+.imodal-links__comment { opacity: .75; font-size: 12px; padding-left: 2px; }

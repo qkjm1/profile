@@ -2,6 +2,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "../outer/css/outer-carousel.css";
 
+export type LinkItem = {
+  url: string;
+  label: string;
+  comment?: string; // 코멘트(선택)
+};
+
 /** 개별 미디어(이미지/영상) */
 export type MediaItem = {
   src: string;
@@ -13,7 +19,8 @@ export type ModalBlock = {
   media: MediaItem[];
   title?: string;
   text?: string;
-  href?: string;
+  href?: string;        // 레거시 단일 링크(유지)
+  links?: LinkItem[];   // ✅ 다중 링크
 };
 
 /** 캐러셀 아이템이 모달에 넘겨주는 데이터 */
@@ -22,9 +29,10 @@ export type ModalPanel = {
   image: string;
   title?: string;
   text?: string;
-  href?: string;
+  href?: string;        // 레거시 단일 링크(유지)
   media?: MediaItem[];
   blocks?: ModalBlock[];
+  links?: LinkItem[];   // ✅ 다중 링크
 };
 
 type Props = {
@@ -45,9 +53,13 @@ export default function InstaModal({
   items,
   activeIndex,
   onClose,
-  onPrev: _onPrev,   // 미사용 경고 방지
-  onNext: _onNext,   // 미사용 경고 방지
+  onPrev: _onPrev, // 미사용 경고 방지용
+  onNext: _onNext, // 미사용 경고 방지용
 }: Props) {
+  // 미사용 변수 경고 무시
+  void _onPrev;
+  void _onNext;
+
   const wrapRef = useRef<HTMLDivElement>(null);
 
   // 현재 카드
@@ -89,14 +101,13 @@ export default function InstaModal({
     setMediaIdx(0);
   }, [blockIdx]);
 
-  // ✅ blocks 계산 이후에 블록 네비 함수 정의
-  const prevBlock = () =>
-    setBlockIdx((i) => (i - 1 + blocks.length) % blocks.length);
-  const nextBlock = () =>
-    setBlockIdx((i) => (i + 1) % blocks.length);
+  // ✅ 블록 네비 함수
+  const prevBlock = () => setBlockIdx((i) => (i - 1 + blocks.length) % blocks.length);
+  const nextBlock = () => setBlockIdx((i) => (i + 1) % blocks.length);
 
-  const cur = blocks[blockIdx] ?? { media: [] };
-  const gallery = cur.media ?? [];
+  // ✅ 현재 블록/미디어
+  const cur = blocks[blockIdx];
+  const gallery = cur?.media ?? [];
   const curMedia = gallery[mediaIdx];
 
   // ===== 스와이프(드래그) 상태 =====
@@ -126,9 +137,13 @@ export default function InstaModal({
   // 이미지 영역 포커스시에만 ←/→ 처리 (부모로 전파 차단)
   const onMediaKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "ArrowLeft") {
-      e.stopPropagation(); e.preventDefault(); prevBlock();
+      e.stopPropagation();
+      e.preventDefault();
+      prevBlock();
     } else if (e.key === "ArrowRight") {
-      e.stopPropagation(); e.preventDefault(); nextBlock();
+      e.stopPropagation();
+      e.preventDefault();
+      nextBlock();
     }
   };
 
@@ -145,18 +160,44 @@ export default function InstaModal({
     if (e.target === e.currentTarget) onClose();
   };
 
+  /** ✅ 링크 머지: 패널 공통 + 블록 전용 + (구형)href를 label로 승격 */
+  const mergedLinks: LinkItem[] = useMemo(() => {
+    const legacy: LinkItem[] = [];
+    if (active?.href) legacy.push({ url: active.href, label: "Link", comment: "패널 공통" });
+    if (cur?.href) legacy.push({ url: cur.href, label: "Link", comment: "이 화면 전용" });
+
+    const fromPanel = active?.links ?? [];
+    const fromBlock = cur?.links ?? [];
+    const all = [...fromPanel, ...fromBlock, ...legacy];
+
+    // URL 기준 중복 제거
+    const seen = new Set<string>();
+    return all.filter((l) => (l?.url && !seen.has(l.url) ? (seen.add(l.url), true) : false));
+  }, [active, cur, blockIdx]);
+
   return (
-    <div className="imodal-backdrop" onMouseDown={onBackdrop} aria-modal role="dialog">
+    <div
+      className="imodal-backdrop"
+      onMouseDown={onBackdrop}
+      aria-modal="true"
+      role="dialog"
+    >
       <div className="imodal" ref={wrapRef} tabIndex={-1}>
         <div className="imodal-left">
           {/* 좌/우 큰 화살표 = 블록 전환 */}
           {blocks.length > 1 && (
             <button
               className="imodal-nav imodal-nav--left"
-              onClick={(e) => { e.stopPropagation(); prevBlock(); }}
-              aria-label="이전 세트" title="이전(←)"
+              onClick={(e) => {
+                e.stopPropagation();
+                prevBlock();
+              }}
+              aria-label="이전 세트"
+              title="이전(←)"
             >
-              <svg viewBox="0 0 24 24" aria-hidden><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden>
+                <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+              </svg>
             </button>
           )}
 
@@ -165,29 +206,67 @@ export default function InstaModal({
             tabIndex={0}
             onKeyDown={onMediaKeyDown}
             // 마우스 드래그
-            onMouseDown={(e) => { e.stopPropagation(); onPointerDown(e.clientX); }}
-            onMouseMove={(e) => { e.stopPropagation(); onPointerMove(e.clientX); }}
-            onMouseUp={(e) => { e.stopPropagation(); onPointerUp(); }}
-            onMouseLeave={(e) => { e.stopPropagation(); onPointerUp(); }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              onPointerDown(e.clientX);
+            }}
+            onMouseMove={(e) => {
+              e.stopPropagation();
+              onPointerMove(e.clientX);
+            }}
+            onMouseUp={(e) => {
+              e.stopPropagation();
+              onPointerUp();
+            }}
+            onMouseLeave={(e) => {
+              e.stopPropagation();
+              onPointerUp();
+            }}
             // 터치 스와이프
-            onTouchStart={(e) => { e.stopPropagation(); onPointerDown(e.touches[0].clientX); }}
-            onTouchMove={(e) => { e.stopPropagation(); onPointerMove(e.touches[0].clientX); }}
-            onTouchEnd={(e) => { e.stopPropagation(); onPointerUp(); }}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+              onPointerDown(e.touches[0].clientX);
+            }}
+            onTouchMove={(e) => {
+              e.stopPropagation();
+              onPointerMove(e.touches[0].clientX);
+            }}
+            onTouchEnd={(e) => {
+              e.stopPropagation();
+              onPointerUp();
+            }}
           >
             {curMedia && (curMedia.type ?? inferType(curMedia.src)) === "video" ? (
-              <video key={curMedia.src} className="imodal-video" src={curMedia.src} controls playsInline />
+              <video
+                key={curMedia.src}
+                className="imodal-video"
+                src={curMedia.src}
+                controls
+                playsInline
+              />
             ) : (
-              <img key={curMedia?.src} className="imodal-image" src={curMedia?.src || ""} alt={cur?.title ?? ""} />
+              <img
+                key={curMedia?.src}
+                className="imodal-image"
+                src={curMedia?.src || ""}
+                alt={cur?.title ?? ""}
+              />
             )}
           </div>
 
           {blocks.length > 1 && (
             <button
               className="imodal-nav imodal-nav--right"
-              onClick={(e) => { e.stopPropagation(); nextBlock(); }}
-              aria-label="다음 세트" title="다음(→)"
+              onClick={(e) => {
+                e.stopPropagation();
+                nextBlock();
+              }}
+              aria-label="다음 세트"
+              title="다음(→)"
             >
-              <svg viewBox="0 0 24 24" aria-hidden><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden>
+                <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+              </svg>
             </button>
           )}
 
@@ -198,13 +277,20 @@ export default function InstaModal({
                 <button
                   key={m.src + i}
                   className={`imodal-thumb ${i === mediaIdx ? "is-active" : ""}`}
-                  onClick={(e) => { e.stopPropagation(); setMediaIdx(i); }}
-                  aria-label={`미디어 ${i + 1}`} title={`미디어 ${i + 1}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMediaIdx(i);
+                  }}
+                  aria-label={`미디어 ${i + 1}`}
+                  title={`미디어 ${i + 1}`}
                 >
-                  {(m.type ?? inferType(m.src)) === "video"
-                    ? <div className="imodal-thumb-video"><video src={m.src} muted /></div>
-                    : <img src={m.src} alt="" />
-                  }
+                  {(m.type ?? inferType(m.src)) === "video" ? (
+                    <div className="imodal-thumb-video">
+                      <video src={m.src} muted />
+                    </div>
+                  ) : (
+                    <img src={m.src} alt="" />
+                  )}
                 </button>
               ))}
             </div>
@@ -212,7 +298,12 @@ export default function InstaModal({
 
           {/* 블록 도트 */}
           {blocks.length > 1 && (
-            <div className="imodal-bdots" role="tablist" aria-label="block pagination" onMouseDown={(e) => e.stopPropagation()}>
+            <div
+              className="imodal-bdots"
+              role="tablist"
+              aria-label="block pagination"
+              onMouseDown={(e) => e.stopPropagation()}
+            >
               {blocks.map((_, i) => (
                 <button
                   key={i}
@@ -220,7 +311,10 @@ export default function InstaModal({
                   aria-selected={i === blockIdx}
                   aria-label={`${i + 1} 세트로 이동`}
                   className={`imodal-bdot ${i === blockIdx ? "is-active" : ""}`}
-                  onClick={(e) => { e.stopPropagation(); setBlockIdx(i); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setBlockIdx(i);
+                  }}
                   title={`${i + 1} 세트로 이동`}
                 />
               ))}
@@ -232,19 +326,52 @@ export default function InstaModal({
         <aside className="imodal-right" onMouseDown={(e) => e.stopPropagation()}>
           <header className="imodal-head">
             <div className="imodal-title">{cur?.title ?? active?.title ?? "Untitled"}</div>
-            <button className="imodal-close" onClick={onClose} aria-label="닫기" title="닫기(ESC)">
-              <svg viewBox="0 0 24 24" aria-hidden><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            <button
+              className="imodal-close"
+              onClick={onClose}
+              aria-label="닫기"
+              title="닫기(ESC)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden>
+                <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+              </svg>
             </button>
           </header>
 
           <div className="imodal-body">
-            {cur?.text
-              ? <p className="imodal-text">{cur.text}</p>
-              : active?.text
-              ? <p className="imodal-text">{active.text}</p>
-              : <p className="imodal-text imodal-text--muted">설명이 없습니다.</p>}
-          </div>
+            {cur?.text ? (
+              <p className="imodal-text">{cur.text}</p>
+            ) : active?.text ? (
+              <p className="imodal-text">{active.text}</p>
+            ) : (
+              <p className="imodal-text imodal-text--muted">설명이 없습니다.</p>
+            )}
 
+            {/* ✅ 관련 링크 섹션 */}
+            {mergedLinks.length > 0 && (
+              <section className="imodal-links">
+                <h4 className="imodal-links__title">관련 링크</h4>
+                <ul className="imodal-links__list">
+                  {mergedLinks.map((l) => (
+                    <li key={l.url} className="imodal-links__item">
+                      <a
+                        href={l.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="imodal-links__anchor"
+                      >
+                        <span className="imodal-links__label">{l.label}</span>
+                        <span className="imodal-links__url">↗</span>
+                      </a>
+                      {l.comment && (
+                        <small className="imodal-links__comment">{l.comment}</small>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </div>
         </aside>
       </div>
     </div>

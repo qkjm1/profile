@@ -32,12 +32,15 @@ const panels: PanelItem[] = [
     blocks: [
       {
         media: [{ src: Physiclickmain, type: "video" }],
-        title: "메인화면 - 1",
+        title: "메인화면 - 첫번째",
         text: "webGL과 Three.js를 이용하여 3D구현 및 인터랙션 개발",
+        links: [
+          { url: "https://velog.io/@kqk11/series/%EA%B0%9C%EC%9D%B8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8", label: "velog", comment: "프로젝트 진행 과정" },
+        ],
       },
       {
         media: [{ src: Physiclickmain2, type: "video" }],
-        title: "아키텍처",
+        title: "메인화면 - 두번쨰",
         text: "Three.js + GLTFLoader, 커스텀 인터랙션(줌/팬/회전) 등",
       },
       {
@@ -67,12 +70,16 @@ const panels: PanelItem[] = [
         media: [{ src: mainVideo, type: "video" }],
         title: "개요",
         text: "Next.js/TypeScript",
+        links: [
+          { url: "https://www.figma.com/design/r6bISppwHcxGGB8lh64XYL/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Ry5drSr1oa2Cf4S7-1", label: "피그마", comment: "피그마 세부 디자인" },
+          { url: "https://www.notion.so/22a25b09255c80df9e02f2da4a8238ee" , label: "팀프로젝트 분담&일정", comment: "notion 이용" },
+        ],
       },
       {
         media: [{ src: home }],
         title: "개요",
         text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오",
-        href: "https://www.figma.com/design/r6bISppwHcxGGB8lh64XYL/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Ry5drSr1oa2Cf4S7-1",
+        
       },
       {
         media: [{ src: main }],
@@ -112,7 +119,7 @@ const panels: PanelItem[] = [
     text: "보이스 → 캐릭터 애니메이션",
     blocks: [
       {
-        media: [{ src: videoPovi, type: "video" }],
+        media: [{ src: imgPovi }],
         title: "개요",
         text: "Next.js/TypeScript",
       },
