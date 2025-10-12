@@ -77,29 +77,29 @@ const panels: PanelItem[] = [
       },
       {
         media: [{ src: home }],
-        title: "개요",
-        text: "webGL 기반 3D 시뮬레이터 개요와 사용 시나리오",
+        title: "로그인 시 진입하는 화면",
+        text: "- Swiper: \n카드 스와이프, 카드 양쪽 블러로 중앙 강조\n- React:\n iframe을 이용해서 아래화면 구성\n- SweetAlert2: \n이용하여 토스트/모달 알림 구현\n - 흐름:\n 카드 중앙 반려동물 선택 > 해당 펫 개인페이지로 이동되도록 결정하는 요소",
         
       },
       {
         media: [{ src: main }],
-        title: "아키텍처",
-        text: "Three.js + GLTFLoader, 커스텀 인터랙션(줌/팬/회전) 등",
+        title: "각 반려동물의 개인페이지 ",
+        text: "- Chart.js: \n사료/물 섭취량 동적 건강지표 시각화\n- Fetch API: \n건강 로그·백신 이벤트/등록/수정/삭제 비동기 호출\n- calendar: \n반려동물 건강 이벤트 등록/수정/삭제, 날짜별 이벤트 뱃지/클릭",
       },
       {
         media: [{ src: login_1 }],
-        title: "UX 플로우",
-        text: "유저 여정과 디버깅 로깅 포인트",
+        title: "로그인 화면",
+        text: "로그인 혹은 회원가입 클릭시 애니메이션 효과",
       },
       {
         media: [{ src: login_2 }],
-        title: "UX 플로우",
-        text: "유저 여정과 디버깅 로깅 포인트",
+        title: "로그인 화면",
+        text: "-",
       },
       {
         media: [{ src: login_3 }],
-        title: "UX 플로우",
-        text: "유저 여정과 디버깅 로깅 포인트",
+        title: "회원가입 화면",
+        text: "입력값에 따라 실시간 유효성 검사",
       },
        {
         media: [{ src: crew_1 }],
