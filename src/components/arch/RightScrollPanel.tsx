@@ -14,29 +14,25 @@ export default function RightScrollPanel({ items }: { items: RightPanelItem[] })
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // ✅ NodeJS.Timeout → ReturnType<typeof ...> 로 교체
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const inactivityRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // 자동 전환 (5초)
   useEffect(() => {
     if (paused) return;
-
     timerRef.current = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % items.length);
     }, 5000);
-
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = null;
     };
   }, [paused, items.length]);
 
+  // 네비 클릭 시 5초 일시정지 후 재개
   const handleNavClick = (idx: number) => {
     setActiveIndex(idx);
     setPaused(true);
-
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -49,11 +45,12 @@ export default function RightScrollPanel({ items }: { items: RightPanelItem[] })
   };
 
   return (
-    <div className="rpanel">
-      <div className="rpanel__viewport">
+    <div className="rpanel" data-paused={paused ? "true" : "false"}>
+      {/* 카드 뷰포트 */}
+      <div className="rpanel__viewport" role="region" aria-live="polite">
         {items.map((it, idx) => (
           <article
-            key={it.name + idx}
+            key={(it.name || "slide") + idx}
             className={`intro-card slide ${idx === activeIndex ? "is-active" : ""}`}
             style={{
               transform:
@@ -84,15 +81,26 @@ export default function RightScrollPanel({ items }: { items: RightPanelItem[] })
         ))}
       </div>
 
-      <div className="rpanel__nav">
-        {items.map((_, i) => (
-          <button
-            key={i}
-            className={`rpanel__dot ${i === activeIndex ? "is-active" : ""}`}
-            onClick={() => handleNavClick(i)}
-          />
-        ))}
-      </div>
+      {/* ✅ 세로 네비게이션 */}
+      <nav className="rnav" aria-label="슬라이드 네비게이션">
+        {items.map((it, i) => {
+          const active = i === activeIndex;
+          return (
+            <button
+              key={i}
+              className={`rnav__btn ${active ? "is-active" : ""}`}
+              onClick={() => handleNavClick(i)}
+              aria-current={active ? "true" : undefined}
+              aria-label={it.name ? `이동: ${it.name}` : `이동: ${i + 1}번`}
+            >
+              <span className="rnav__bar" aria-hidden>
+                <span className="rnav__barProgress" />
+              </span>
+              <span className="rnav__label">{it.name || `Section ${i + 1}`}</span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }
