@@ -10,6 +10,7 @@ import main_2 from "@/img/physiclick/main_4.png";
 //
 import imgAniwell from "@/img/aniwell_main.png";
 import mainVideo from "@/img/aniwell/main.mp4";
+import mainVideo_1 from "@/img/aniwell/main1.mp4";
 import home from "@/img/aniwell/home.png";
 import main from "@/img/aniwell/main.png";
 import login_1 from "@/img/aniwell/login_1.png";
@@ -20,6 +21,8 @@ import crew_1 from "@/img/aniwell/AniWell_41.png";
 import crew_2 from "@/img/aniwell/crew_1.png";
 //
 import imgPovi from "@/img/povi.png";
+import mainPovi from "@/img/povi/povi_main.png";
+import Povivideo from "@/img/povi/video.mp4";
 
 //
 import imgDashboard from "@/img/dashboard.png";
@@ -67,14 +70,19 @@ const panels: PanelItem[] = [
     title: "Aniwell",
     text: "반려동물 건강 분석 · 진료기록 OCR/QR 리포트 분석",
     blocks: [
-      {
-        media: [{ src: mainVideo, type: "video" }],
+       {
+        media: [{ src: mainVideo_1, type: "video" }],
         title: "Aniwell",
         text: "- Tailwind CSS\n- AOS (Animate On Scroll): \n일부 요소 페이드/슬라이드 인 애니메이션\n- GSAP + ScrollTrigger/ScrollTo: \n섹션 핀(sticky), 스크롤 동기화, 시퀀스 애니메이션\n- SVG 로고 연출: \n로고 path 드로잉 + 클리핑을 이용한 물결(wave) 충전 이펙트, 필터 텍스처(grain)",
         links: [
           { url: "https://www.figma.com/design/r6bISppwHcxGGB8lh64XYL/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Ry5drSr1oa2Cf4S7-1", label: "피그마", comment: "피그마 세부 디자인" },
           { url: "https://www.notion.so/22a25b09255c80df9e02f2da4a8238ee" , label: "팀프로젝트 분담&일정", comment: "notion 이용" },
         ],
+      },
+      {
+        media: [{ src: mainVideo, type: "video" }],
+        title: "Aniwell",
+        text: "- Tailwind CSS\n- AOS (Animate On Scroll): \n일부 요소 페이드/슬라이드 인 애니메이션\n- GSAP + ScrollTrigger/ScrollTo: \n섹션 핀(sticky), 스크롤 동기화, 시퀀스 애니메이션\n- SVG 로고 연출: \n로고 path 드로잉 + 클리핑을 이용한 물결(wave) 충전 이펙트, 필터 텍스처(grain)",
       },
       {
         media: [{ src: home }],
@@ -109,7 +117,7 @@ const panels: PanelItem[] = [
       },
       {
         media: [{ src: crew_2 }],
-        title: "산책모임 메인",
+        title: "산책모임 세부화면",
         text: "-",
       },
        {
@@ -125,9 +133,14 @@ const panels: PanelItem[] = [
     text: "보이스 → 캐릭터 애니메이션",
     blocks: [
       {
-        media: [{ src: imgPovi }],
+        media: [{ src: mainPovi }],
         title: "개요",
-        text: "Next.js/TypeScript",
+        text: "- 음성을 통한 분석 및 음성을 통한 이미지를 보여주는 서비스 제공\n- Uvicorn (ASGI 서버), FFmpeg(음성 변환 및 영상 처리)\n- Stable Diffusion API (이미지 생성)\n- FFmpeg(실시간 변환/영상 처리)\n- replicate API (ai 영상 생성)",
+      },
+      {
+        media: [{ src: Povivideo, type: "video" }],
+        title: "개요",
+        text: "- 음성을 통한 분석 및 음성을 통한 이미지를 보여주는 서비스 제공\n- Uvicorn (ASGI 서버), FFmpeg(음성 변환 및 영상 처리)\n- Stable Diffusion API (이미지 생성)\n- FFmpeg(실시간 변환/영상 처리)\n- replicate API (ai 영상 생성)",
       },
     ],
   },
