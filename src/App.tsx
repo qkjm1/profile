@@ -365,18 +365,7 @@ function HeroCopy() {
           데이터·UX·AI를 잇는 창의적 엔지니어,
         </span>
         <span className="hero-copy__emph">개발자 김정민입니다.</span>
-        <span className="hero-copy__sub">
-          물리치료사로 시작해 사람의 움직임과 감정을 이해하던 저는,
-          <br />
-          이제 데이터와 UX, 그리고 AI로 사람의 경험을 설계하는 개발자가
-          되었습니다.
-          <br />
-        </span>
-        <span className="hero-copy__sub">
-          Spring Boot로 백엔드를 설계하고, Next.js·Three.js로 인터랙티브
-          프런트를 구현하며 기술을 통해 문제를 분석하고,
-          <br /> 디자인으로 해결하는 엔지니어링의 즐거움을 추구합니다.
-        </span>
+
       </h1>
       <p className="hero-copy__sub">
         | Spring Boot · OpenAI API · python · Next.js · Three.js · node.js |

@@ -3,6 +3,7 @@
 }
 
 .oc-wrapper {
+  align-items: center;
   position: relative;
   width: 100%;
   display: flex;

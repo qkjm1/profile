@@ -1,5 +1,7 @@
 // src/sections/OuterSection.tsx
-
+import type { ArchImage, ArchInfo } from "../components/arch/types/arch";
+import me from "@/img/me.png";
+import "@/components/arch/css/ArchImageStack.css";
 import OuterCarousel, { PanelItem } from "../components/outer/OuterCarousel";
 import imgPhysiclick from "@/img/physiclick.png";
 import Physiclickmain from "@/img/physiclick/main.mp4";
@@ -149,6 +151,13 @@ const panels: PanelItem[] = [
     image: imgDashboard,
     title: "Lingbo Dashboard",
     text: "UTM/QR 실시간 분석 & 알림",
+    blocks: [
+      {
+        media: [{ src: imgDashboard }],
+        title: "대시보드",
+        text: "웹사이트 및 외부 채널(포스터, 명함, 배너 등)을 통해 공유된 링크/QR 접속 데이터를 수집하여 대시보드 형태로 시각화/분석하고 단축 URL 및 QR 코드를 제공하며, \n클릭 로그를 기반으로 시간대별, 디바이스별, 유입 채널별 통계를 확인 가능.\n이상 징후 탐지(스팸/스크래핑) 및 링크 상태(만료, 404, 리다이렉트 루프) 모니터링 기능 제공.",
+      }
+    ],
   },
 ];
 
