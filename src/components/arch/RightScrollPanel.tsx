@@ -8,6 +8,7 @@ export type RightPanelItem = {
   email?: string;
   desc?: string;
   bullets?: string[];
+  desc2?: string;
 };
 
 export default function RightScrollPanel({ items }: { items: RightPanelItem[] }) {
@@ -77,6 +78,7 @@ export default function RightScrollPanel({ items }: { items: RightPanelItem[] })
                 ))}
               </ul>
             ) : null}
+            {it.desc2 && <p className="intro-card__desc">{it.desc2}</p>}
           </article>
         ))}
       </div>

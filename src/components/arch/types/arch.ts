@@ -34,4 +34,6 @@ export type ProfileItem = {
   handle?: HandleLink;
   // ⬇️ 멀티 링크는 여기로
   handles?: HandleLink[];
+
+  desc2?: string;
 };
