@@ -56,7 +56,6 @@ function scrollToSection(id: string) {
   }, Math.round(duration * 1000) + 120);
 }
 
-
 function HeroHeader() {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -71,77 +70,81 @@ function HeroHeader() {
   );
 
   useLayoutEffect(() => {
-  const el = heroInnerRef.current;
-  if (!el) return;
+    const el = heroInnerRef.current;
+    if (!el) return;
 
-  // 초기 상태: 숨김
-  gsap.set(el, { yPercent: -120, autoAlpha: 0, pointerEvents: "none" });
+    // 초기 상태: 숨김
+    gsap.set(el, { yPercent: -120, autoAlpha: 0, pointerEvents: "none" });
 
-  let idleTimer: number | null = null;
-  const clearIdle = () => { if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; } };
+    let idleTimer: number | null = null;
+    const clearIdle = () => {
+      if (idleTimer) {
+        clearTimeout(idleTimer);
+        idleTimer = null;
+      }
+    };
 
-  const show = () => {
-    clearIdle();
-    gsap.to(el, {
-      yPercent: 0,
-      autoAlpha: 1,
-      duration: 0.28,
-      ease: "power2.out",
-      onStart: () => (el.style.pointerEvents = "auto"),
-    });
-  };
+    const show = () => {
+      clearIdle();
+      gsap.to(el, {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: 0.28,
+        ease: "power2.out",
+        onStart: () => (el.style.pointerEvents = "auto"),
+      });
+    };
 
-  const hide = () => {
-    if (open) return; // 패널 열려 있으면 유지
-    gsap.to(el, {
-      yPercent: -120,
-      autoAlpha: 0,
-      duration: 0.42,
-      ease: "power2.inOut",
-      onComplete: () => (el.style.pointerEvents = "none"),
-    });
-  };
+    const hide = () => {
+      if (open) return; // 패널 열려 있으면 유지
+      gsap.to(el, {
+        yPercent: -120,
+        autoAlpha: 0,
+        duration: 0.42,
+        ease: "power2.inOut",
+        onComplete: () => (el.style.pointerEvents = "none"),
+      });
+    };
 
-  const scheduleHide = (ms = 1000) => {
-    clearIdle();
-    idleTimer = window.setTimeout(() => {
-      // hover/focus 중이면 유지
-      const isHover = el.matches(":hover");
-      const hasFocus = el.contains(document.activeElement);
-      if (!isHover && !hasFocus) hide();
-    }, ms);
-  };
+    const scheduleHide = (ms = 1000) => {
+      clearIdle();
+      idleTimer = window.setTimeout(() => {
+        // hover/focus 중이면 유지
+        const isHover = el.matches(":hover");
+        const hasFocus = el.contains(document.activeElement);
+        if (!isHover && !hasFocus) hide();
+      }, ms);
+    };
 
-  // ScrollTrigger 글로벌 이벤트 사용
-  const onStart = () => show();
-  const onEnd = () => scheduleHide(900);
+    // ScrollTrigger 글로벌 이벤트 사용
+    const onStart = () => show();
+    const onEnd = () => scheduleHide(900);
 
-  ScrollTrigger.addEventListener("scrollStart", onStart);
-  ScrollTrigger.addEventListener("scrollEnd", onEnd);
+    ScrollTrigger.addEventListener("scrollStart", onStart);
+    ScrollTrigger.addEventListener("scrollEnd", onEnd);
 
-  // 헤더 마우스/포커스 인터랙션 시 항상 보이기
-  const onEnter = () => show();
-  const onLeave = () => scheduleHide(600);
-  el.addEventListener("mouseenter", onEnter);
-  el.addEventListener("focusin", onEnter);
-  el.addEventListener("mouseleave", onLeave);
-  el.addEventListener("focusout", onLeave);
+    // 헤더 마우스/포커스 인터랙션 시 항상 보이기
+    const onEnter = () => show();
+    const onLeave = () => scheduleHide(600);
+    el.addEventListener("mouseenter", onEnter);
+    el.addEventListener("focusin", onEnter);
+    el.addEventListener("mouseleave", onLeave);
+    el.addEventListener("focusout", onLeave);
 
-  // 패널 상태가 바뀌면 즉시 반영 (열리면 표시/닫히면 일정후 숨김)
-  if (open) show();
-  else scheduleHide(600);
+    // 패널 상태가 바뀌면 즉시 반영 (열리면 표시/닫히면 일정후 숨김)
+    if (open) show();
+    else scheduleHide(600);
 
-  return () => {
-    ScrollTrigger.removeEventListener("scrollStart", onStart);
-    ScrollTrigger.removeEventListener("scrollEnd", onEnd);
-    el.removeEventListener("mouseenter", onEnter);
-    el.removeEventListener("focusin", onEnter);
-    el.removeEventListener("mouseleave", onLeave);
-    el.removeEventListener("focusout", onLeave);
-    clearIdle();
-  };
-}, [open]);
-
+    return () => {
+      ScrollTrigger.removeEventListener("scrollStart", onStart);
+      ScrollTrigger.removeEventListener("scrollEnd", onEnd);
+      el.removeEventListener("mouseenter", onEnter);
+      el.removeEventListener("focusin", onEnter);
+      el.removeEventListener("mouseleave", onLeave);
+      el.removeEventListener("focusout", onLeave);
+      clearIdle();
+    };
+  }, [open]);
 
   useLayoutEffect(() => {
     // 버튼 맵: data-target 속성으로 조회
@@ -362,6 +365,18 @@ function HeroCopy() {
           데이터·UX·AI를 잇는 창의적 엔지니어,
         </span>
         <span className="hero-copy__emph">개발자 김정민입니다.</span>
+        <span className="hero-copy__sub">
+          물리치료사로 시작해 사람의 움직임과 감정을 이해하던 저는,
+          <br />
+          이제 데이터와 UX, 그리고 AI로 사람의 경험을 설계하는 개발자가
+          되었습니다.
+          <br />
+        </span>
+        <span className="hero-copy__sub">
+          Spring Boot로 백엔드를 설계하고, Next.js·Three.js로 인터랙티브
+          프런트를 구현하며 기술을 통해 문제를 분석하고,
+          <br /> 디자인으로 해결하는 엔지니어링의 즐거움을 추구합니다.
+        </span>
       </h1>
       <p className="hero-copy__sub">
         | Spring Boot · OpenAI API · python · Next.js · Three.js · node.js |

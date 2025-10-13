@@ -134,13 +134,13 @@ const panels: PanelItem[] = [
     blocks: [
       {
         media: [{ src: mainPovi }],
-        title: "개요",
+        title: "음성분석 및 캐릭터 생성 - 애니메이션",
         text: "- 음성을 통한 분석 및 음성을 통한 이미지를 보여주는 서비스 제공\n- Uvicorn (ASGI 서버), FFmpeg(음성 변환 및 영상 처리)\n- Stable Diffusion API (이미지 생성)\n- FFmpeg(실시간 변환/영상 처리)\n- replicate API (ai 영상 생성)",
       },
       {
         media: [{ src: Povivideo, type: "video" }],
-        title: "개요",
-        text: "- 음성을 통한 분석 및 음성을 통한 이미지를 보여주는 서비스 제공\n- Uvicorn (ASGI 서버), FFmpeg(음성 변환 및 영상 처리)\n- Stable Diffusion API (이미지 생성)\n- FFmpeg(실시간 변환/영상 처리)\n- replicate API (ai 영상 생성)",
+        title: "설명",
+        text: "- 프롬프트 : \n고정된 카메라, 캐릭터가 정면을 보다가 카메라 기준으로 왼쪽으로 시선을 옮김\n 움직임은 눈 깜빡임 정도와 시선 이동\n 입은 끝까지 닫지않음\n 표정은 중립\n움직임에 흔들림, 깜빡임, 형태변화 없음\n마지막은 캐릭터가 가볍게 미소짓는걸로 끝남\n- /shot_001/keyframes/0001.png를 기준으로 영상을 만들도록 설정"
       },
     ],
   },

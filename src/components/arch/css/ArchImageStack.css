@@ -453,3 +453,42 @@
 @media (hover:hover) and (pointer:fine) {
   .img-wrapper:hover .profile-card { transform: rotate(0deg) translateY(-6px); }
 }
+
+/* 오른쪽 컬럼을 독립 스크롤 컨테이너로 */
+.arch-right-scroll {
+  height: 100vh;             /* 화면을 꽉 채운 패널 */
+  overflow-y: auto;          /* 이 영역만 스크롤 */
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory; /* 카드 단위로 딱딱 맞춤 */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 카드 한 장이 화면 한 뷰포트 높이 */
+/* ===== ArchImageStack: 독립 스크롤 모드 강제 오버라이드 ===== */
+.arch-right-scroll {
+  height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 기존 absolute/sticky 규칙들을 무력화 */
+.arch-right-scroll .img-wrapper {
+  position: static !important;  /* ← absolute/sticky 해제 */
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+
+  min-height: 100vh;            /* 카드 한 장 = 한 화면 */
+  display: grid;
+  place-items: center;
+  scroll-snap-align: start;
+  padding: 24px 12px;
+  box-sizing: border-box;
+
+  opacity: 1;                   /* 최초 카드 안 보이는 이슈 방지 */
+  transition: none;             /* 필요 시 효과 제거 */
+}
+
+/* 카드 안의 실제 내용(article.profile-card)은 그대로 사용 */

@@ -191,6 +191,19 @@ export default function ArchSection() {
               "Spring Boot/MySQL",
             ],
           },
+          {
+            z: 1,
+            src: "src/img/whrite.png", // 키용 더미 경로
+            name: "김정민",
+            school: "부산보건대학교",
+            email: "kqk9269@gmail.com",
+            desc: "[산대특] 공공데이터를 활용한 웹앱개발자 양성 과정 (2025-02-28 ~ 2025-10-02)",
+            bullets: [
+              "Next.js/TypeScript",
+              "GSAP/Three.js",
+              "Spring Boot/MySQL",
+            ],
+          },
         ]}
       />
     </div>
