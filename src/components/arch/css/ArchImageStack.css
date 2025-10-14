@@ -31,8 +31,6 @@
   /* 세로 중앙 */
   justify-content: center;
   /* 가로 중앙 */
-  border-right: 1px solid rgba(0, 0, 0, .08);
-  background: #fff;
 }
 
 .profile-card {
@@ -217,6 +215,9 @@
   /* 카드 높이 up (섹션 대비 크게) */
   margin: 0 auto;
   /* 가로 중앙 */
+  overflow: hidden;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, .10);
+  border-radius: 24px;
 }
 
 /* 슬라이드 카드 */
@@ -229,7 +230,6 @@
   padding: 48px;
   border-radius: 24px;
   background: #fff;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, .10);
   display: grid;
   align-content: start;
   gap: 12px;
@@ -262,6 +262,36 @@
   white-space: pre-line; /* \n → 줄바꿈으로 표시 */
   line-height: 1.5;
 }
+
+/* 스크롤 박스 */
+.desc2 {
+  max-height: 140px;      /* 필요하면 값 조절 */
+  overflow: auto;         /* 스크롤 생성 */
+  padding-right: 8px;     /* 스크롤바 겹침 여백 */
+  margin-top: 8px;
+  border-radius: 8px;
+  background: rgba(0,0,0,.03); /* 살짝 구분감(선택) */
+}
+
+/* 줄바꿈 보존 */
+.desc2 p {
+  margin: 0;
+  white-space: pre-line;  /* \n 줄바꿈 유지 */
+  line-height: 1.6;
+}
+
+/* 스크롤바 미세 스타일 (선택) */
+.desc2::-webkit-scrollbar { width: 6px; }
+.desc2::-webkit-scrollbar-thumb { background: rgba(0,0,0,.25); border-radius: 999px; }
+.desc2::-webkit-scrollbar-track { background: transparent; }
+
+/* 900px 이하에서 아예 숨기고 싶다면 (선택) */
+/*
+@media (max-width: 900px) {
+  .intro-card__desc2 { display: none; }
+}
+*/
+
 
 .intro-card__list {
   margin: 14px 0 0;

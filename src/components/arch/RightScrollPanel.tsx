@@ -17,6 +17,7 @@ export default function RightScrollPanel({ items }: { items: RightPanelItem[] })
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const inactivityRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // 자동 전환 (5초)
   useEffect(() => {
@@ -45,8 +46,29 @@ export default function RightScrollPanel({ items }: { items: RightPanelItem[] })
     inactivityRef.current = setTimeout(() => setPaused(false), 5000);
   };
 
+  // 🔻 마우스 hover 시 자동 슬라이드 일시정지
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+
+    const onEnter = () => setPaused(true);
+    const onLeave = () => setPaused(false);
+
+    el.addEventListener("mouseenter", onEnter);
+    el.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      el.removeEventListener("mouseenter", onEnter);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
   return (
-    <div className="rpanel" data-paused={paused ? "true" : "false"}>
+    <div
+      ref={panelRef}
+      className="rpanel"
+      data-paused={paused ? "true" : "false"}
+    >
       {/* 카드 뷰포트 */}
       <div className="rpanel__viewport" role="region" aria-live="polite">
         {items.map((it, idx) => (
@@ -78,12 +100,16 @@ export default function RightScrollPanel({ items }: { items: RightPanelItem[] })
                 ))}
               </ul>
             ) : null}
-            {it.desc2 && <p className="intro-card__desc">{it.desc2}</p>}
+           {it.desc2 && (
+                <div className="intro-card__desc desc2" role="region" aria-label="상세 설명">
+            <p>{it.desc2}</p>
+            </div>
+           )}
           </article>
         ))}
       </div>
 
-      {/* ✅ 세로 네비게이션 */}
+      {/* 세로 네비게이션 */}
       <nav className="rnav" aria-label="슬라이드 네비게이션">
         {items.map((it, i) => {
           const active = i === activeIndex;

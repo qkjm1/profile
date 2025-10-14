@@ -9,6 +9,7 @@ import "@/components/arch/css/ArchImageStack.css";
 import type { ProfileItem } from "@/components/arch/types/arch";
 
 export default function ArchSection() {
+  
   const rightItems: RightPanelItem[] = [
     {
       name: "소개",

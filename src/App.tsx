@@ -57,6 +57,10 @@ function scrollToSection(id: string) {
 }
 
 function HeroHeader() {
+  const [mobileOpen, setMobileOpen] = useState(false); // 모바일 드로어
+  const [ghSubOpen, setGhSubOpen] = useState(false); // GitHub 서브메뉴
+  const drawerRef = useRef<HTMLDivElement | null>(null); // ⬅ 모바일 드로어 참조
+
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
@@ -65,6 +69,7 @@ function HeroHeader() {
   const handleNav = useCallback(
     (targetId: string) => () => {
       scrollToSection(targetId);
+      setMobileOpen(false);
     },
     []
   );
@@ -146,6 +151,7 @@ function HeroHeader() {
     };
   }, [open]);
 
+
   useLayoutEffect(() => {
     // 버튼 맵: data-target 속성으로 조회
     const btns = Array.from(
@@ -176,16 +182,55 @@ function HeroHeader() {
     return () => triggers.forEach((t) => t.kill());
   }, []);
 
+  
+    useLayoutEffect(() => {
+    // (기존 섹션 버튼 aria-current 세팅) 동일
+    const btns = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".navlink[data-target]")
+    );
+    const btnMap = new Map<string, HTMLButtonElement>();
+    btns.forEach((b) => {
+      const key = b.getAttribute("data-target");
+      if (key) btnMap.set(key, b);
+    });
+
+    const ids = ["p-arch", "p-profiles", "p-stack"];
+    const triggers = ids.map((id) =>
+      ScrollTrigger.create({
+        trigger: document.getElementById(id)!,
+        start: "top center",
+        end: "bottom center",
+        onToggle: (self) => {
+          btnMap.forEach((btn) => btn.setAttribute("aria-current", "false"));
+          if (self.isActive) btnMap.get(id)?.setAttribute("aria-current", "true");
+        },
+      })
+    );
+
+    return () => triggers.forEach((t) => t.kill());
+  }, []);
+
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
-      if (!open) return;
       const t = e.target as Node;
-      if (panelRef.current?.contains(t)) return;
-      if (btnRef.current?.contains(t)) return;
-      setOpen(false);
+      // 데스크톱 GitHub 패널 외부 클릭
+      if (open) {
+        if (!panelRef.current?.contains(t) && !btnRef.current?.contains(t)) {
+          setOpen(false);
+        }
+      }
+      // 모바일 드로어 외부 클릭
+      if (mobileOpen) {
+        if (!drawerRef.current?.contains(t)) {
+          setMobileOpen(false);
+        }
+      }
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open) setOpen(false);
+      if (e.key === "Escape") {
+        if (open) setOpen(false);
+        if (mobileOpen) setMobileOpen(false);
+      }
     };
     document.addEventListener("click", onDocClick);
     document.addEventListener("keydown", onKey);
@@ -193,42 +238,26 @@ function HeroHeader() {
       document.removeEventListener("click", onDocClick);
       document.removeEventListener("keydown", onKey);
     };
-  }, [open]);
+  }, [open, mobileOpen]);
 
   return (
     <header className="hero">
       <div className="hero__inner" ref={heroInnerRef}>
-        {/* STEP 2) 좌측: 섹션 내비게이션 */}
+        {/* 좌측: 섹션 내비게이션 (데스크톱 전용) */}
         <nav className="hero__nav" aria-label="섹션 내비게이션">
-          <button
-            className="navlink"
-            type="button"
-            data-target="p-arch"
-            onClick={handleNav("p-arch")}
-          >
+          <button className="navlink" type="button" data-target="p-arch" onClick={handleNav("p-arch")}>
             Hello
           </button>
-          <button
-            className="navlink"
-            type="button"
-            data-target="p-profiles"
-            onClick={handleNav("p-profiles")}
-          >
+          <button className="navlink" type="button" data-target="p-profiles" onClick={handleNav("p-profiles")}>
             Profiles
           </button>
-          <button
-            className="navlink"
-            type="button"
-            data-target="p-stack"
-            onClick={handleNav("p-stack")}
-          >
+          <button className="navlink" type="button" data-target="p-stack" onClick={handleNav("p-stack")}>
             Stack
           </button>
         </nav>
 
-        {/* STEP 3) 우측: GitHub 토글 + Velog 링크 */}
+        {/* 우측: 데스크톱 액션( Velog 링크 + GitHub 패널 토글 ) */}
         <div className="hero__actions">
-          {/* Velog: GitHub 오른쪽에 고정 링크 */}
           <a
             className="toggle toggle--link"
             href="https://velog.io/@kqk11"
@@ -245,16 +274,11 @@ function HeroHeader() {
               height={18}
               loading="lazy"
               decoding="async"
-              style={{
-                marginRight: 6,
-                verticalAlign: "middle",
-                objectFit: "contain",
-              }}
+              style={{ marginRight: 6, verticalAlign: "middle", objectFit: "contain" }}
             />
             <span className="toggle__label">Velog</span>
           </a>
 
-          {/* GitHub 토글 패널 */}
           <button
             ref={btnRef}
             id="ghToggle"
@@ -267,19 +291,11 @@ function HeroHeader() {
               setOpen((v) => !v);
             }}
           >
-            <svg
-              aria-hidden="true"
-              width="18"
-              height="18"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-            >
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 .198a8 8 0 0 0-2.53 15.6c.4.074.55-.174.55-.388 0-.19-.007-.693-.01-1.36-2.24.487-2.71-1.08-2.71-1.08-.364-.924-.89-1.17-.89-1.17-.727-.497.055-.487.055-.487.803.056 1.225.825 1.225.825.715 1.225 1.873.871 2.33.666.073-.518.28-.872.508-1.073-1.787-.202-3.667-.894-3.667-3.978 0-.879.314-1.597.824-2.159-.083-.203-.357-1.02.078-2.127 0 0 .672-.215 2.2.824a7.63 7.63 0 0 1 2-.27c.68.003 1.37.092 2 .27 1.53-1.04 2.2-.824 2.2-.824.437 1.107.162 1.924.08 2.127.513.562.824 1.28.824 2.159 0 3.092-1.884 3.773-3.676 3.972.287.247.54.735.54 1.482 0 1.07-.01 1.933-.01 2.195 0 .215.146.466.553.387A8.002 8.002 0 0 0 8 .198z" />
             </svg>
             <span className="toggle__label">GitHub</span>
-            <span className="toggle__chev" aria-hidden="true">
-              ▾
-            </span>
+            <span className="toggle__chev" aria-hidden="true">▾</span>
           </button>
 
           <div
@@ -292,62 +308,98 @@ function HeroHeader() {
           >
             <div className="gh-panel__section">
               <p className="gh-panel__title">프로필</p>
-              <a
-                className="gh-link"
-                href="https://github.com/qkjm1"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="gh-link" href="https://github.com/qkjm1" target="_blank" rel="noopener noreferrer">
                 @qkjm1
               </a>
             </div>
             <div className="gh-panel__section">
               <p className="gh-panel__title">대표 레포지토리</p>
               <ul className="gh-repolist">
-                <li>
-                  <a
-                    className="gh-link"
-                    href="https://github.com/AniwellProject/AniwellProject"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Aniwell
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="gh-link"
-                    href="https://github.com/qkjm1/ptoject_25"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    PhysiClick
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="gh-link"
-                    href="https://github.com/qkjm1/dashboard"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    lingbo
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="gh-link"
-                    href="https://github.com/povi-project/povi-project"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    povi-project
-                  </a>
-                </li>
+                <li><a className="gh-link" href="https://github.com/AniwellProject/AniwellProject" target="_blank" rel="noopener noreferrer">Aniwell</a></li>
+                <li><a className="gh-link" href="https://github.com/qkjm1/ptoject_25" target="_blank" rel="noopener noreferrer">PhysiClick</a></li>
+                <li><a className="gh-link" href="https://github.com/qkjm1/dashboard" target="_blank" rel="noopener noreferrer">lingbo</a></li>
+                <li><a className="gh-link" href="https://github.com/povi-project/povi-project" target="_blank" rel="noopener noreferrer">povi-project</a></li>
               </ul>
             </div>
           </div>
         </div>
+
+        {/* === 모바일: 햄버거 버튼 (900px 이하에만 표시) === */}
+        <button
+          className="hero__burger"
+          type="button"
+          aria-label="메뉴 열기"
+          aria-expanded={mobileOpen}
+          aria-controls="mobileDrawer"
+          onClick={(e) => {
+            e.stopPropagation();
+            setMobileOpen((v) => !v);
+          }}
+        >
+          <span className="burger-bar" />
+          <span className="burger-bar" />
+          <span className="burger-bar" />
+        </button>
+
+        {/* === 모바일 드로어 (헤더 바로 아래 우측 정렬) === */}
+        <nav
+          id="mobileDrawer"
+          ref={drawerRef}
+          className={`mobile-drawer ${mobileOpen ? "is-open" : ""}`}
+          aria-label="모바일 내비게이션"
+        >
+          <ul className="mnav">
+            {/* 링크 그룹 1: 외부 링크 */}
+            <li className="mnav__item">
+              <a className="mnav__link" href="https://velog.io/@kqk11" target="_blank" rel="noopener noreferrer">
+                벨로그
+              </a>
+            </li>
+
+            {/* GitHub 아코디언 */}
+            <li className="mnav__item">
+              <button
+                className="mnav__link mnav__link--accordion"
+                type="button"
+                aria-expanded={ghSubOpen}
+                aria-controls="ghSubmenu"
+                onClick={() => setGhSubOpen((v) => !v)}
+              >
+                깃허브
+                <span className={`chev ${ghSubOpen ? "up" : ""}`} aria-hidden="true">▾</span>
+              </button>
+              <ul
+                id="ghSubmenu"
+                className={`msub ${ghSubOpen ? "open" : ""}`}
+              >
+                <li><a className="msub__link" href="https://github.com/qkjm1" target="_blank" rel="noopener noreferrer">@qkjm1</a></li>
+                <li><a className="msub__link" href="https://github.com/AniwellProject/AniwellProject" target="_blank" rel="noopener noreferrer">Aniwell</a></li>
+                <li><a className="msub__link" href="https://github.com/qkjm1/ptoject_25" target="_blank" rel="noopener noreferrer">PhysiClick</a></li>
+                <li><a className="msub__link" href="https://github.com/qkjm1/dashboard" target="_blank" rel="noopener noreferrer">lingbo</a></li>
+                <li><a className="msub__link" href="https://github.com/povi-project/povi-project" target="_blank" rel="noopener noreferrer">povi-project</a></li>
+              </ul>
+            </li>
+
+            <li className="mnav__sep" aria-hidden="true" />
+
+            {/* 링크 그룹 2: 섹션 이동 */}
+            <li className="mnav__item">
+              <button className="mnav__link" type="button" onClick={handleNav("p-arch")}>
+                Hello
+              </button>
+            </li>
+            <li className="mnav__item">
+              <button className="mnav__link" type="button" onClick={handleNav("p-profiles")}>
+                Profiles
+              </button>
+            </li>
+            <li className="mnav__item">
+              <button className="mnav__link" type="button" onClick={handleNav("p-stack")}>
+                Stack
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
   );
@@ -368,7 +420,7 @@ function HeroCopy() {
 
       </h1>
       <p className="hero-copy__sub">
-        | Spring Boot · OpenAI API · python · Next.js · Three.js · node.js |
+        | Spring Boot · OpenAI API · python · Next.js · Three.js · node.js · react |
       </p>
     </div>
   );

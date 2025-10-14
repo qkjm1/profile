@@ -15,7 +15,7 @@
 
   --text-muted: rgba(0,0,0,0.60);
   --text-strong: #111827; /* slate-900 */
-  --ring: 0 0 0 2px rgba(99,102,241,0.5); /* indigo-500/50 */
+  --ring: 0 0 0 2px rgba(241, 99, 99, 0.5); /* indigo-500/50 */
 }
 
 
@@ -157,7 +157,7 @@
 .stack-card__line {
   height: 4px;
   width: 100%;
-  background: linear-gradient(90deg, rgba(99,102,241,0) 0%, rgba(99,102,241,.3) 50%, rgba(99,102,241,0) 100%);
+  background: linear-gradient(90deg, rgba(241, 99, 99, 0) 0%, rgba(241, 99, 99, 0.3) 50%, rgba(241, 99, 99, 0) 100%);
   opacity: 0;
   transition: opacity .2s ease;
 }
@@ -197,7 +197,7 @@
   box-shadow: 0 1px 1px rgba(18,44,85,.06), 0 8px 24px rgba(18,44,85,.08);
 }
 .stack-pager__btn:hover { transform: translateY(-1px); }
-.stack-pager__btn:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(99,102,241,.5); }
+.stack-pager__btn:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(241, 99, 99, 0.5); }
 .stack-pager__info { font-size: .875rem; color: var(--text-muted); }
 @media (prefers-color-scheme: dark) {
   .stack-pager__btn { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.12); }

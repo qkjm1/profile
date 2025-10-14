@@ -36,4 +36,5 @@ export type ProfileItem = {
   handles?: HandleLink[];
 
   desc2?: string;
+  desc3?: string;
 };

@@ -1,5 +1,5 @@
 :root {
-  --ocMaxW: 1024px;   /* 而⑦뀒�대꼫 理쒕��� */
+  --ocMaxW: 1024px;  
 }
 
 .oc-wrapper {
@@ -38,7 +38,7 @@
   overflow: hidden;
   border-radius: 12px;
   background: #f2f2f2;
-  position: relative;            /* 燧낉툘 �꾪듃 �덈�諛곗튂 湲곗� */
+  position: relative;            
 }
 
 .oc-track {
@@ -48,18 +48,22 @@
 }
 
 .oc-slide {
-  /* �щ씪�대뱶(�섏씠吏�) �섎굹媛� 酉고룷�� �꾩껜 �덈퉬瑜� 李⑥� */
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* perSlide=3 湲곗� */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   padding: 8px;
   box-sizing: border-box;
 }
 
-/* 諛섏쓳��: perSlide媛� 2/1�� 寃쎌슦 �좎뿰 ���� */
+
+/* 모바일/태블릿: 한 줄에 하나 (≤900px) */
 @media (max-width: 900px) {
-  .oc-slide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .oc-slide {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
 }
 @media (max-width: 600px) {
   .oc-slide { grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -107,10 +111,10 @@
 .oc-card-title { margin: 0; font-size: 18px; font-weight: 700; }
 .oc-card-text { margin: 0; font-size: 14px; opacity: .95; }
 
-/* �꾪듃瑜� �곷떒 以묒븰 �ㅻ쾭�덉씠濡� */
+/* ========== Dots Navigation ========== */
 .oc-dots {
   position: absolute;
-  top: -10px;                     /* �꾩슂 �� 0~20px濡� 議곗젙 */
+  top: -10px;                    
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -119,12 +123,12 @@
   border-radius: 999px;
   z-index: 5;
 
-  /* �댁쭩 蹂댁씠�� 釉붾윭 諛곌꼍(�좏깮) */
+
   background: rgba(0,0,0,.35);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
-/* �꾪듃 ��鍮꾨� �꾪빐 �됱긽 議곗젙 */
+
 .oc-dot {
   width: 8px; height: 8px; border-radius: 999px;
   border: none; background: rgba(255,255,255,.6); cursor: pointer;
@@ -134,7 +138,7 @@
 
 /* ----- Hover Animations on Cards ----- */
 
-/* 紐⑥뀡 誘쇨컧 �ъ슜�� 諛곕젮 */
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card,
   .oc-card-bg,
@@ -144,18 +148,17 @@
   }
 }
 
-/* 湲곕낯 �몃옖吏��� �명똿 */
 .oc-card {
   transform: translateY(0);
   transition: transform .35s ease, box-shadow .35s ease;
   will-change: transform;
 }
 .oc-card-bg {
-  transition: transform .6s ease;              /* �대�吏� 以� */
+  transition: transform .6s ease;             
   will-change: transform;
 }
 .oc-card-overlay {
-  /* 罹≪뀡 �깆옣: �꾨옒�� �댁쭩 �щ씪�ㅻŉ �섏씠�� */
+
   display: grid;
   align-content: end;
   gap: 6px;
@@ -167,7 +170,7 @@
   transition: transform .35s ease, opacity .35s ease;
 }
 
-/* �ъ씤�곌� �뺢탳�� �섍꼍�먯꽌留� �몃쾭 �곹샇�묒슜 */
+
 @media (hover: hover) and (pointer: fine) {
   .oc-card:hover {
     transform: translateY(-6px);
@@ -176,15 +179,15 @@
       0 2px 6px rgba(0,0,0,.12);
   }
   .oc-card:hover .oc-card-bg {
-    transform: scale(1.08);                    /* �대�吏� �댁쭩 �뺣� */
+    transform: scale(1.08);                    
   }
   .oc-card:hover .oc-card-overlay {
-    transform: translateY(0);                  /* 罹≪뀡 �щ씪�ㅻŉ */
-    opacity: 1;                                /* �� �좊챸�섍쾶 */
+    transform: translateY(0);                 
+    opacity: 1;                               
   }
 }
 
-/* �ㅻ낫�� �ъ빱�� �묎렐��: �몃쾭�� �숈씪�� �쇰뱶諛� */
+
 .oc-card:focus-within {
   outline: none;
   transform: translateY(-6px);
@@ -200,7 +203,7 @@
   opacity: 1;
 }
 
-/* 罹≪뀡 �띿뒪�몄뿉 �쎄컙�� �뷀뀒��(�듭뀡) */
+
 .oc-card-title {
   letter-spacing: .2px;
   text-shadow: 0 1px 2px rgba(0,0,0,.35);
@@ -210,7 +213,7 @@
   text-shadow: 0 1px 2px rgba(0,0,0,.25);
 }
 
-/* 紐⑤컮�� �� 諛섏쓳 怨쇰룄�� 諛⑹� (�좏깮): hover �④낵 �쏀솕 */
+
 @media (hover: none) {
   .oc-card { transition: box-shadow .25s ease; }
   .oc-card-bg { transition: none; }
