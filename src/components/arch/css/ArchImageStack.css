@@ -359,16 +359,13 @@
 }
 
 /* ========== Responsive ========== */
-@media (max-width: 900px) {
+@media (max-width: 1180px) {
+  .arch-profile__left {
+    display: none;
+  }
   .arch-profile {
     grid-template-columns: 1fr;
     column-gap: 0;
-  }
-
-  .arch-profile__left {
-    border-right: none;
-    border-bottom: 1px solid rgba(0, 0, 0, .08);
-    padding: 20px 0 16px;
   }
 
   .rpanel {
