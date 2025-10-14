@@ -79,6 +79,7 @@ const panels: PanelItem[] = [
         links: [
           { url: "https://www.figma.com/design/r6bISppwHcxGGB8lh64XYL/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Ry5drSr1oa2Cf4S7-1", label: "피그마", comment: "피그마 세부 디자인" },
           { url: "https://www.notion.so/22a25b09255c80df9e02f2da4a8238ee" , label: "팀프로젝트 분담&일정", comment: "notion 이용" },
+          { url: "https://drive.google.com/file/d/1ol5U_rdCPtEAT-uDrIEij5bwwPwHEdp6/view?usp=sharing" , label: "ppt", comment: "발표ppt" },
         ],
       },
       {

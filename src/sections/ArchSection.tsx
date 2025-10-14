@@ -11,8 +11,8 @@ import type { ProfileItem } from "@/components/arch/types/arch";
 export default function ArchSection() {
   const rightItems: RightPanelItem[] = [
     {
-      name: "",
-      school: "부산보건대학교",
+      name: "소개",
+      school: "김정민",
       email: "kqk9269@gmail.com",
       desc: "[산대특] 공공데이터를 활용한 웹앱개발자 양성 과정 (2025-02-28 ~ 2025-10-02)",
       bullets: ["Next.js/TypeScript", "GSAP/Three.js", "Spring Boot/MySQL"],
@@ -20,8 +20,10 @@ export default function ArchSection() {
 
     },
     {
-      name: "",
-          },
+      name: "업무경험",
+      bullets: ["물리치료사"],
+      desc: "근골격계 환자의 움직임 패턴과 통증 원인을 데이터 기반으로 분석하여, 개인별 치료 계획을 실행했습니다.\n환자의 참여도를 높이기 위해 직관적 시각 피드백을 요하는 치료를 적극 활용해 환자의 만족도를 향상시켰습니다.",
+    },
   ];
 
   const leftItem: ProfileItem = {
