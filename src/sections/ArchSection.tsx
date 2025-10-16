@@ -17,7 +17,7 @@ export default function ArchSection() {
       email: "kqk9269@gmail.com",
       desc: "[산대특] 공공데이터를 활용한 웹앱개발자 양성 과정 (2025-02-28 ~ 2025-10-02)",
       bullets: ["Next.js/TypeScript", "GSAP/Three.js", "Spring Boot/MySQL"],
-      desc2: "물리치료사로 시작해 사람의 움직임과 감정을 이해하던 저는,\n이제 데이터와 UX, 그리고 AI로 사람의 경험을 설계하는 개발자가 되었습니다.\n Spring Boot로 백엔드를 설계하고, \nNext.js·Three.js로 인터랙티브 프런트를 구현하며 기술을 통해 문제를 분석하고, \n디자인으로 해결하는 엔지니어링의 즐거움을 추구합니다.",
+      desc2: "Spring Boot로 백엔드를 설계하고, Next.js·Three.js로 인터랙티브한 프론트를 구현하며 기술을 통해 문제를 분석하고, \n디자인으로 해결하는 엔지니어링의 즐거움을 추구합니다.",
 
     },
     {

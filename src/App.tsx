@@ -420,7 +420,7 @@ function HeroCopy() {
 
       </h1>
       <p className="hero-copy__sub">
-        | Spring Boot · OpenAI API · python · Next.js · Three.js · node.js · react |
+        | Spring Boot · OpenAI API · python · Next.js · Three.js · node.js|
       </p>
     </div>
   );
