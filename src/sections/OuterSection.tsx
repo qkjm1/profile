@@ -39,7 +39,7 @@ const panels: PanelItem[] = [
       {
         media: [{ src: Physiclickmain, type: "video" }],
         title: "메인화면 - 첫번째",
-        text: "webGL과 Three.js를 이용하여 3D구현 및 인터랙션 개발",
+        text: "webGL과 Three.js를 이용하여 3D구현 및 인터랙션 개발\n-물리치료사로서의 경험을 바탕으로,환자와 일반인 모두가 근육·관절 구조를 3D로 직관적으로 이해할 수 있도록 제작했습니다. \n- 단순한 모형이 아니라, 부위별 클릭 → 설명 연동이 가능하게 설계했습니다.",
         links: [
           { url: "https://velog.io/@kqk11/series/%EA%B0%9C%EC%9D%B8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8", label: "velog", comment: "프로젝트 진행 과정" },
         ],
