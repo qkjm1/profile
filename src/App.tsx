@@ -260,7 +260,7 @@ function HeroHeader() {
         <div className="hero__actions">
           <a
             className="toggle toggle--link"
-            href="https://velog.io/@kqk11"
+            href="https://velog.io/@kqk11/posts"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Velog로 이동"

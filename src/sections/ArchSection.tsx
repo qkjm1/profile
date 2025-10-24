@@ -22,8 +22,9 @@ export default function ArchSection() {
     },
     {
       name: "학력",
-      bullets: ["부산보건대학교"],
-      desc2: "근골격계 환자의 움직임 패턴과 통증 원인을 데이터 기반으로 분석하여, 개인별 치료 계획을 실행했습니다.\n환자의 참여도를 높이기 위해 직관적 시각 피드백을 요하는 치료를 적극 활용해 환자의 만족도를 향상시켰습니다.",
+      school: "부산보건대학교",
+      bullets: ["물리치료학과 전문학사 졸업 (2019-03 ~ 2023-02)"],
+      desc2: "-",
     },
     {
       name: "업무경험",
@@ -40,7 +41,7 @@ export default function ArchSection() {
     desc: "2000.11.11",
     handles: [
       { url: "https://github.com/qkjm1", label: "GitHub" },
-      { url: "https://velog.io/@qkjm1", label: "Velog" },
+      { url: "https://velog.io/@kqk11/posts", label: "Velog" },
       { url: "mailto:kqk9269@gmail.com", label: "Email" },
     ],
   };
